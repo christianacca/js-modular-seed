@@ -1,0 +1,32 @@
+{
+  "name": "js-modular-seed",
+  "version": "0.0.1",
+  "description": "javascript seed project that supports a modular code base",
+  "scripts": {
+    "build-app:scr": "(linklocal -- app-scripts list -r | bulk -c \"npm run build\") && (cd app-scripts && npm run build)",
+    "build-app:sys": "(linklocal -- app-systemjs list -r | bulk -c \"npm run build\") && (cd app-systemjs && npm run build)",
+    "build-app:wp": "(cd app-webpack && npm run build)",
+    "preclean:full": "npm run clean",
+    "clean:full": "shx ls -d app-*/ lib/*/ | bulk -c \"shx rm -rf node_modules\"",
+    "clean": "shx ls -d app-*/ lib/*/ | bulk -c \"npm run clean\"",
+    "postinstall": "shx ls -d app-*/ lib/*/ | bulk -c \"npm install\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianacca/js-modular-seed.git"
+  },
+  "keywords": [],
+  "author": "christianacca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },
+  "homepage": "https://github.com/christianacca/js-modular-seed#readme",
+  "devDependencies": {
+    "bulk": "github:kumarharsh/bulk#windows-support",
+    "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
+    "shx": "^0.1.2",
+    "webpack": "^2.1.0-beta.15"
+  }
+}

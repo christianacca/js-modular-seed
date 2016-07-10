@@ -1,0 +1,19 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>SystemJS example app</title>
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+        <script>
+            System.packageWithIndex = false; // set to false to serve bundles instead of individual files
+        </script>
+        <script src="system.config.js"></script>
+        <script>
+            System.import("index.js");
+        </script>
+    </head>
+    <body>
+        <h1>SystemJS example app</h1>
+        <p>Open the console to check the output.</p>
+        <p>If the build was successful you should see `app-cc` logged four times to the console</p>
+    </body>
+</html>

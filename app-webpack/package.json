@@ -1,0 +1,21 @@
+{
+  "name": "@js-modular-seed/app-webpack",
+  "version": "0.0.1",
+  "description": "Example application and consumer of this project libraries. Uses webpack to bundle JS from both the application and library folders",
+  "main": "index.js",
+  "scripts": {
+    "build": "node ../node_modules/webpack/bin/webpack.js --env.prod",
+    "clean": "node ../node_modules/shx/lib/cli.js rm -rf bundles",
+    "preinstall": "node ../node_modules/linklocal/bin/linklocal.js -r",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "node ../node_modules/webpack/bin/webpack.js"
+  },
+  "keywords": [],
+  "author": "christianacca",
+  "license": "MIT",
+  "dependencies": {
+    "@js-modular-seed/lib1": "file:../lib/lib1",
+    "@js-modular-seed/lib2": "file:../lib/lib2"
+  },
+  "devDependencies": {}
+}

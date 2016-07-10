@@ -1,0 +1,22 @@
+{
+  "name": "@js-modular-seed/app-systemjs",
+  "version": "0.0.1",
+  "description": "Example application and consumer of this project libraries. Uses SystemJS to serve JS from the application and library folders",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo \"Nothing to build\"",
+    "clean": "echo \"Nothing to clean\"",
+    "preinstall": "node ../node_modules/linklocal/bin/linklocal.js -r",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "christianacca",
+  "license": "MIT",
+  "dependencies": {
+    "@js-modular-seed/lib1": "file:../lib/lib1",
+    "@js-modular-seed/lib2": "file:../lib/lib2",
+    "systemjs": "^0.19.31",
+    "systemjs-plugin-babel": "0.0.12"
+  },
+  "devDependencies": {}
+}
