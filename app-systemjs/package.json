@@ -6,17 +6,23 @@
   "scripts": {
     "build": "echo \"Nothing to build\"",
     "clean": "echo \"Nothing to clean\"",
-    "preinstall": "node ../node_modules/linklocal/bin/linklocal.js -r",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "relink": "node ../node_modules/linklocal/bin/linklocal.js",
+    "unlink": "node ../node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
+    "preshrinkwrap": "npm run unlink",
+    "postshrinkwrap": "npm run relink"
   },
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
   "dependencies": {
-    "@js-modular-seed/lib1": "file:../lib/lib1",
-    "@js-modular-seed/lib2": "file:../lib/lib2",
+    "@js-modular-seed/lib1": "^0.0.1",
+    "@js-modular-seed/lib2": "^0.0.1",
     "systemjs": "^0.19.31",
     "systemjs-plugin-babel": "0.0.12"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@js-modular-seed/lib1": "file:../lib/lib1",
+    "@js-modular-seed/lib2": "file:../lib/lib2"
+  }
 }

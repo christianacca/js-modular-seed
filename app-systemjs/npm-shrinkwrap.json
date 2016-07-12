@@ -1,0 +1,31 @@
+{
+  "name": "@js-modular-seed/app-systemjs",
+  "version": "0.0.1",
+  "dependencies": {
+    "@js-modular-seed/lib1": {
+      "version": "0.0.1",
+      "from": "@js-modular-seed/lib1@>=0.0.1 <0.0.2",
+      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib1/-/lib1-0.0.1.tgz"
+    },
+    "@js-modular-seed/lib2": {
+      "version": "0.0.1",
+      "from": "@js-modular-seed/lib2@>=0.0.1 <0.0.2",
+      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib2/-/lib2-0.0.1.tgz"
+    },
+    "systemjs": {
+      "version": "0.19.31",
+      "from": "systemjs@>=0.19.31 <0.20.0",
+      "resolved": "https://registry.npmjs.org/systemjs/-/systemjs-0.19.31.tgz"
+    },
+    "systemjs-plugin-babel": {
+      "version": "0.0.12",
+      "from": "systemjs-plugin-babel@0.0.12",
+      "resolved": "https://registry.npmjs.org/systemjs-plugin-babel/-/systemjs-plugin-babel-0.0.12.tgz"
+    },
+    "when": {
+      "version": "3.7.7",
+      "from": "when@>=3.7.5 <4.0.0",
+      "resolved": "https://registry.npmjs.org/when/-/when-3.7.7.tgz"
+    }
+  }
+}

@@ -6,16 +6,22 @@
   "scripts": {
     "build": "node ../node_modules/webpack/bin/webpack.js --env.prod",
     "clean": "node ../node_modules/shx/lib/cli.js rm -rf bundles",
-    "preinstall": "node ../node_modules/linklocal/bin/linklocal.js -r",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "node ../node_modules/webpack/bin/webpack.js"
+    "webpack": "node ../node_modules/webpack/bin/webpack.js",
+    "relink": "node ../node_modules/linklocal/bin/linklocal.js",
+    "unlink": "node ../node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
+    "preshrinkwrap": "npm run unlink",
+    "postshrinkwrap": "npm run relink"
   },
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
   "dependencies": {
+    "@js-modular-seed/lib1": "^0.0.1",
+    "@js-modular-seed/lib2": "^0.0.1"
+  },
+  "devDependencies": {
     "@js-modular-seed/lib1": "file:../lib/lib1",
     "@js-modular-seed/lib2": "file:../lib/lib2"
-  },
-  "devDependencies": {}
+  }
 }

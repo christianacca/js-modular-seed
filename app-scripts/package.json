@@ -1,20 +1,26 @@
 {
-  "name": "@js-modular-seed/app-webpack",
+  "name": "@js-modular-seed/app-scripts",
   "version": "0.0.1",
   "description": "Example application and consumer of this project libraries. Uses script references to serve JS",
   "main": "index.js",
   "scripts": {
     "build": "echo \"Nothing to build\"",
     "clean": "node ../node_modules/shx/lib/cli.js rm -rf bundles",
-    "preinstall": "node ../node_modules/linklocal/bin/linklocal.js -r",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "relink": "node ../node_modules/linklocal/bin/linklocal.js",
+    "unlink": "node ../node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
+    "preshrinkwrap": "npm run unlink",
+    "postshrinkwrap": "npm run relink"
   },
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
   "dependencies": {
+    "@js-modular-seed/lib1": "^0.0.1",
+    "@js-modular-seed/lib2": "^0.0.1"
+  },
+  "devDependencies": {
     "@js-modular-seed/lib1": "file:../lib/lib1",
     "@js-modular-seed/lib2": "file:../lib/lib2"
-  },
-  "devDependencies": {}
+  }
 }
