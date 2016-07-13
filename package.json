@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "javascript seed project that supports a modular code base",
   "scripts": {
+    "cmd": "shx ls -d app-*/ lib/*/ | bulk -c",
     "preclean:full": "npm run clean",
     "clean:full": "shx ls -d app-*/ lib/*/ | bulk -c \"shx rm -rf node_modules\"",
     "clean": "shx ls -d app-*/ lib/*/ | bulk -c \"npm run clean\"",
@@ -26,6 +27,7 @@
     "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
     "shx": "^0.1.2",
     "webpack": "^2.1.0-beta.15",
+    "webpack-merge": "^0.14.0",
     "webpack-validator": "^2.2.2"
   }
 }

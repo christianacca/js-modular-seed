@@ -1,3 +1,4 @@
+_*.js
 *.spec.js
 jsconfig.json
 webpack.config.js
