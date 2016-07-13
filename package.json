@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "javascript seed project that supports a modular code base",
   "scripts": {
-    "build-app:scr": "(linklocal -- app-scripts list -r | bulk -c \"npm run build\") && (cd app-scripts && npm run build)",
-    "build-app:sys": "(linklocal -- app-systemjs list -r | bulk -c \"npm run build\") && (cd app-systemjs && npm run build)",
-    "build-app:wp": "(cd app-webpack && npm run build)",
     "preclean:full": "npm run clean",
     "clean:full": "shx ls -d app-*/ lib/*/ | bulk -c \"shx rm -rf node_modules\"",
     "clean": "shx ls -d app-*/ lib/*/ | bulk -c \"npm run clean\"",
