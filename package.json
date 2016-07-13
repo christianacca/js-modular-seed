@@ -7,7 +7,8 @@
     "clean:full": "shx ls -d app-*/ lib/*/ | bulk -c \"shx rm -rf node_modules\"",
     "clean": "shx ls -d app-*/ lib/*/ | bulk -c \"npm run clean\"",
     "postinstall": "shx ls -d app-*/ lib/*/ | bulk -c \"npm install\" && shx ls -d app-*/ | bulk -c \"linklocal -r\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "validate": "shx ls -d app-webpack/ lib/*/ | bulk -c \"webpack-validator webpack.config.js\""
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "bulk": "github:kumarharsh/bulk#windows-support",
     "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
     "shx": "^0.1.2",
-    "webpack": "^2.1.0-beta.15"
+    "webpack": "^2.1.0-beta.15",
+    "webpack-validator": "^2.2.2"
   }
 }
