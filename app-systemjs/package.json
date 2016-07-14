@@ -4,8 +4,10 @@
   "description": "Example application and consumer of this project libraries. Uses SystemJS to serve JS from the application and library folders",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build-deps",
-    "build-deps": "node ../node_modules/linklocal/bin/linklocal.js list -r | node ../node_modules/bulk/cli.js -c \"npm run build\"",
+    "every-dep": "node ../node_modules/linklocal/bin/linklocal.js list | node ../node_modules/bulk/cli.js -c",
+    "build": "npm run every-dep -- \"npm run build\"",
+    "build:prod": "npm run every-dep -- \"npm run build:prod\"",
+    "build:full": "node ../node_modules/npm-run-all/bin/run-p/index.js build build:prod",
     "clean": "echo \"Nothing to clean\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "relink": "node ../node_modules/linklocal/bin/linklocal.js",

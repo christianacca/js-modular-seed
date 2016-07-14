@@ -1,8 +1,9 @@
 const path = require('path');
 const merge = require('webpack-merge');
+const parts = require('../webpack-common/parts');
 
 module.exports = ({prod} = { prod: false }) => {
-    
+
     const common = {
         entry: path.join(__dirname, 'index.js'),
         output: {
@@ -11,20 +12,29 @@ module.exports = ({prod} = { prod: false }) => {
         }
     };
 
-    let config = {};
+    let finalConfig = {};
     if (prod) {
-        config = merge(common, {
-            devtool: 'source-map',
-            bail: true
-        });
-    } else {
-        config = merge(common, {
-            output: {
-                pathinfo: true
+        finalConfig = merge(
+            common,
+            {
+                output: {
+                    filename: 'bundle.min.js'
+                },
+                devtool: 'source-map',
+                bail: true
             },
-            devtool: 'eval'
-        });
+            parts.prodOptimize()
+        );
+    } else {
+        finalConfig = merge(
+            common,
+            {
+                output: {
+                    pathinfo: true
+                },
+                devtool: 'eval'
+            });
     }
 
-    return config;
+    return finalConfig;
 }
