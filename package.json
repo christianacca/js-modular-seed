@@ -24,6 +24,7 @@
   "homepage": "https://github.com/christianacca/js-modular-seed#readme",
   "devDependencies": {
     "bulk": "github:kumarharsh/bulk#windows-support",
+    "html-webpack-plugin": "^2.22.0",
     "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
     "npm-run-all": "^2.3.0",
     "shx": "^0.1.2",

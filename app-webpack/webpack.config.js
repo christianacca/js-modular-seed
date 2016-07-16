@@ -7,6 +7,7 @@ module.exports = ({prod} = { prod: false }) => {
 
     return merge(
         parts.asAppBundle(),
+        parts.useHtmlPlugin(),
         parts.withEnvironment()
     );
 }
