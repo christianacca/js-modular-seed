@@ -12,6 +12,11 @@
       "from": "@js-modular-seed/lib2@>=0.0.1 <0.0.2",
       "resolved": "https://registry.npmjs.org/@js-modular-seed/lib2/-/lib2-0.0.1.tgz"
     },
+    "lodash": {
+      "version": "4.13.1",
+      "from": "lodash@>=4.13.1 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.13.1.tgz"
+    },
     "systemjs": {
       "version": "0.19.31",
       "from": "systemjs@>=0.19.31 <0.20.0",

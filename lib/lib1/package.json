@@ -19,5 +19,8 @@
   "author": "christianacca",
   "license": "MIT",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "peerDependencies": {
+    "lodash": "^4.13.1"
+  }
 }
