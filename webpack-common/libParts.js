@@ -12,7 +12,7 @@ function createLibraryParts(sourceDir, isProd) {
         asUmdLibrary,
         excludeNodeModule,
         excludeNodeModules,
-        withEnvironment
+        withEnvironment: commonParts.withEnvironment.bind(null, isProd)
     });
 
     /////
@@ -78,24 +78,5 @@ function createLibraryParts(sourceDir, isProd) {
             });
         });
         return Object.keys(deps);
-    }
-
-    function withEnvironment() {
-        if (isProd) {
-            return merge(
-                {
-                    devtool: 'source-map',
-                    bail: true
-                },
-                commonParts.prodOptimize()
-            );
-        } else {
-            return {
-                output: {
-                    pathinfo: true
-                },
-                devtool: 'eval'
-            };
-        }
     }
 }

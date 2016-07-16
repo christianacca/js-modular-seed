@@ -1,6 +1,10 @@
+const merge = require('webpack-merge');
 const webpack = require('webpack');
 
-exports.prodOptimize = prodOptimize;
+module.exports = {
+    prodOptimize,
+    withEnvironment
+};
 
 function prodOptimize () {
     return {
@@ -27,3 +31,22 @@ function prodOptimize () {
         ]
     };
 }
+
+function withEnvironment(isProd) {
+        if (isProd) {
+            return merge(
+                {
+                    devtool: 'source-map',
+                    bail: true
+                },
+                prodOptimize()
+            );
+        } else {
+            return {
+                output: {
+                    pathinfo: true
+                },
+                devtool: 'eval'
+            };
+        }
+    }
