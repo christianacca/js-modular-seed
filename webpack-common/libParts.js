@@ -9,31 +9,26 @@ function createLibraryParts(sourceDir, isProd) {
     const libraryName = pkg.name.split('/')[1];
 
     return Object.assign({}, commonParts, {
-        environment,
+        asUmdLibrary,
         excludeNodeModule,
         excludeNodeModules,
-        umdLibrary
+        withEnvironment
     });
 
     /////
 
-    function environment(isProd) {
-        if (isProd) {
-            return merge(
-                {
-                    devtool: 'source-map',
-                    bail: true
-                },
-                commonParts.prodOptimize()
-            );
-        } else {
-            return {
-                output: {
-                    pathinfo: true
-                },
-                devtool: 'eval'
-            };
-        }
+    function asUmdLibrary() {
+        const filename = isProd ? `${libraryName}.umd.min.js` : `${libraryName}.umd.js`;
+        return {
+            entry: path.join(sourceDir, 'index.js'),
+            output: {
+                path: path.join(sourceDir, 'bundles'),
+                filename: filename,
+                library: pkg.name,
+                libraryTarget: 'umd',
+                umdNamedDefine: true
+            }
+        };
     }
 
     function excludeNodeModule(modulePath, globalVar) {
@@ -85,17 +80,22 @@ function createLibraryParts(sourceDir, isProd) {
         return Object.keys(deps);
     }
 
-    function umdLibrary() {
-        const filename = isProd ? `${libraryName}.umd.min.js` : `${libraryName}.umd.js`;
-        return {
-            entry: path.join(sourceDir, 'index.js'),
-            output: {
-                path: path.join(sourceDir, 'bundles'),
-                filename: filename,
-                library: pkg.name,
-                libraryTarget: 'umd',
-                umdNamedDefine: true
-            }
-        };
+    function withEnvironment() {
+        if (isProd) {
+            return merge(
+                {
+                    devtool: 'source-map',
+                    bail: true
+                },
+                commonParts.prodOptimize()
+            );
+        } else {
+            return {
+                output: {
+                    pathinfo: true
+                },
+                devtool: 'eval'
+            };
+        }
     }
 }
