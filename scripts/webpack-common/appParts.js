@@ -1,6 +1,5 @@
-const merge = require('webpack-merge');
+const {merge, webpack} = require('./tools');
 const path = require('path');
-const webpack = require('webpack');
 const commonParts = require('./parts');
 
 module.exports = createAppParts;
@@ -14,9 +13,11 @@ function createAppParts(sourceDir, isProd) {
     const rootPkg = require(path.resolve(PATHS.project, 'package'));
     const pkg = require(path.join(sourceDir, 'package'));
 
+    const projectScopeName = `@${rootPkg.name}`;
 
     return Object.assign({}, commonParts, {
         asAppBundle,
+        resolveLibraryPeerDependencies,
         useHtmlPlugin,
         withEnvironment: commonParts.withEnvironment.bind(null, isProd)
     });
@@ -24,20 +25,34 @@ function createAppParts(sourceDir, isProd) {
     /////
 
     function getLibraryNames() {
-        const projectScopeName = `@${rootPkg.name}`;
         return Object.keys(pkg.dependencies)
             .filter(name => name.startsWith(projectScopeName))
             .map(name => name.split('/')[1]);
     }
 
-    function moduleResolvePaths() {
-        let libraryNodeModulesPath = getLibraryNames()
-            .map(name => path.join(PATHS.project, 'lib', name, 'node_modules'));
+    function getLibraryPackageDefs() {
+        return getLibraryNames()
+            .map(name => path.join(sourceDir, 'node_modules', projectScopeName, name, 'package'))
+            .map(pkgPath => require(pkgPath));
+    }
+
+    /**
+     * override the webpack resolution logic but only for peer dependencies defined by our libraries.
+     * This is necessary because the standard resolve breaks down when using symlinks
+     */
+    function resolveLibraryPeerDependencies() {
+        const peerDependencies = Object.keys(
+            getLibraryPackageDefs().reduce((acc, pkg) => {
+                return Object.assign(acc, pkg.peerDependencies);
+            }, {})
+        );
+        const alias = peerDependencies.reduce((acc, name) => {
+            acc[name] = path.join(sourceDir, 'node_modules', name);
+            return acc;
+        }, {});
         return {
-            resolve: {
-                modules: [sourceDir, path.join(sourceDir, 'node_modules'), ...libraryNodeModulesPath]
-            }
-        }
+            resolve: { alias }
+        };
     }
 
     function useHtmlPlugin() {
@@ -73,8 +88,7 @@ function createAppParts(sourceDir, isProd) {
                         minChunks: Infinity
                     })
                 ]
-            },
-            moduleResolvePaths()
+            }
         );
     }
 }

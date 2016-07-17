@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const {merge} = require('./tools');
 const path = require('path');
 const commonParts = require('./parts');
 

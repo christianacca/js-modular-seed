@@ -1,14 +1,14 @@
 {
   "name": "@js-modular-seed/lib2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "library that extracts part of the application responsibilities; as a seperate library it can be published to npm and then reused by other applications",
   "main": "index.js",
   "scripts": {
-    "build": "node ../../node_modules/webpack/bin/webpack.js",
-    "build:prod": "node ../../node_modules/webpack/bin/webpack.js --env.prod",
-    "build:full": "node ../../node_modules/npm-run-all/bin/run-p/index.js build build:prod",
-    "clean": "node ../../node_modules/shx/lib/cli.js rm -rf bundles",
-    "webpack": "node ../../node_modules/webpack/bin/webpack.js",
+    "build": "node ../../scripts/node_modules/webpack/bin/webpack.js",
+    "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
+    "build:full": "node ../../scripts/node_modules/npm-run-all/bin/run-p/index.js build build:prod",
+    "clean": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf bundles",
+    "webpack": "node ../../scripts/node_modules/webpack/bin/webpack.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,7 +21,7 @@
     "@js-modular-seed/lib1": "file:../lib1"
   },
   "peerDependencies": {
-    "@js-modular-seed/lib1": "^0.0.1",
+    "@js-modular-seed/lib1": "^0.0.2",
     "lodash": "^4.13.1"
   }
 }

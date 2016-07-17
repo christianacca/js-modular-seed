@@ -3,13 +3,7 @@
   "version": "0.0.1",
   "description": "javascript seed project that supports a modular code base",
   "scripts": {
-    "cmd": "shx ls -d app-*/ lib/*/ | bulk -c",
-    "preclean:full": "npm run clean",
-    "clean:full": "shx ls -d app-*/ lib/*/ | bulk -c \"shx rm -rf node_modules\"",
-    "clean": "shx ls -d app-*/ lib/*/ | bulk -c \"npm run clean\"",
-    "postinstall": "shx ls -d app-*/ lib/*/ | bulk -c \"npm install\" && shx ls -d app-*/ | bulk -c \"linklocal -r\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "validate": "shx ls -d app-webpack/ lib/*/ | bulk -c \"webpack-validator webpack.config.js\""
+    "postinstall": "cd scripts && npm install"
   },
   "repository": {
     "type": "git",
@@ -22,14 +16,5 @@
     "url": "https://github.com/christianacca/js-modular-seed/issues"
   },
   "homepage": "https://github.com/christianacca/js-modular-seed#readme",
-  "devDependencies": {
-    "bulk": "github:kumarharsh/bulk#windows-support",
-    "html-webpack-plugin": "^2.22.0",
-    "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
-    "npm-run-all": "^2.3.0",
-    "shx": "^0.1.2",
-    "webpack": "^2.1.0-beta.15",
-    "webpack-merge": "^0.14.0",
-    "webpack-validator": "^2.2.2"
-  }
+  "devDependencies": {}
 }

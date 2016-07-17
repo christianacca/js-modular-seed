@@ -1,7 +1,10 @@
-const merge = require('webpack-merge');
-const webpack = require('webpack');
+const {merge, webpack} = require('./tools');
 
 module.exports = {
+    tools: {
+        merge,
+        webpack
+    },
     prodOptimize,
     withEnvironment
 };

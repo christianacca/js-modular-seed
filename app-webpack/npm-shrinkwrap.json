@@ -3,14 +3,19 @@
   "version": "0.0.1",
   "dependencies": {
     "@js-modular-seed/lib1": {
-      "version": "0.0.1",
-      "from": "@js-modular-seed/lib1@>=0.0.1 <0.0.2",
-      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib1/-/lib1-0.0.1.tgz"
+      "version": "0.0.2",
+      "from": "@js-modular-seed/lib1@0.0.2",
+      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib1/-/lib1-0.0.2.tgz"
     },
     "@js-modular-seed/lib2": {
-      "version": "0.0.1",
-      "from": "@js-modular-seed/lib2@>=0.0.1 <0.0.2",
-      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib2/-/lib2-0.0.1.tgz"
+      "version": "0.0.2",
+      "from": "@js-modular-seed/lib2@0.0.2",
+      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib2/-/lib2-0.0.2.tgz"
+    },
+    "core-js": {
+      "version": "2.4.0",
+      "from": "core-js@>=2.4.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/core-js/-/core-js-2.4.0.tgz"
     },
     "lodash": {
       "version": "4.13.1",

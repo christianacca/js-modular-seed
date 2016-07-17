@@ -4,23 +4,24 @@
   "description": "Example application and consumer of this project libraries. Uses script references to serve JS",
   "main": "index.js",
   "scripts": {
-    "every-dep": "node ../node_modules/linklocal/bin/linklocal.js list | node ../node_modules/bulk/cli.js -c",
+    "every-dep": "node ../scripts/node_modules/linklocal/bin/linklocal.js list | node ../scripts/node_modules/bulk/cli.js -c",
     "build": "npm run every-dep -- \"npm run build\"",
     "build:prod": "npm run every-dep -- \"npm run build:prod\"",
-    "build:full": "node ../node_modules/npm-run-all/bin/run-p/index.js build build:prod",
+    "build:full": "node ../scripts/node_modules/npm-run-all/bin/run-p/index.js build build:prod",
     "clean": "echo \"Nothing to clean\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "relink": "node ../node_modules/linklocal/bin/linklocal.js",
-    "unlink": "node ../node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
-    "preshrinkwrap": "npm run unlink && npm prune",
+    "relink": "node ../scripts/node_modules/linklocal/bin/linklocal.js",
+    "unlink": "node ../scripts/node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
+    "shrinkwrap:remove": "del npm-shrinkwrap.json",
+    "preshrinkwrap": "npm run shrinkwrap:remove && npm run unlink",
     "postshrinkwrap": "npm run relink"
   },
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
   "dependencies": {
-    "@js-modular-seed/lib1": "^0.0.1",
-    "@js-modular-seed/lib2": "^0.0.1",
+    "@js-modular-seed/lib1": "0.0.2",
+    "@js-modular-seed/lib2": "0.0.2",
     "lodash": "^4.13.1"
   },
   "devDependencies": {
