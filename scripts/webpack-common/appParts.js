@@ -10,10 +10,8 @@ function createAppParts(sourceDir, isProd) {
         project: path.resolve(sourceDir, '../')
     };
 
-    const rootPkg = require(path.resolve(PATHS.project, 'package'));
-    const pkg = require(path.join(sourceDir, 'package'));
-
-    const projectScopeName = `@${rootPkg.name}`;
+    const appUtil = require('./appUtil')(sourceDir);
+    const pkg = appUtil.pkg;
 
     return Object.assign({}, commonParts, {
         asAppBundle,
@@ -24,15 +22,9 @@ function createAppParts(sourceDir, isProd) {
 
     /////
 
-    function getLibraryNames() {
-        return Object.keys(pkg.dependencies)
-            .filter(name => name.startsWith(projectScopeName))
-            .map(name => name.split('/')[1]);
-    }
-
     function getLibraryPackageDefs() {
-        return getLibraryNames()
-            .map(name => path.join(sourceDir, 'node_modules', projectScopeName, name, 'package'))
+        return appUtil.getLibraryNames()
+            .map(name => path.join(sourceDir, 'node_modules', appUtil.projectScopeName, name, 'package'))
             .map(pkgPath => require(pkgPath));
     }
 

@@ -4,6 +4,7 @@
   "description": "Example application and consumer of this project libraries. Uses SystemJS to serve JS from the application and library folders",
   "main": "index.js",
   "scripts": {
+    "watch": "node ../scripts/node_modules/webpack/bin/webpack.js --watch",
     "every-dep": "node ../scripts/node_modules/linklocal/bin/linklocal.js list | node ../scripts/node_modules/bulk/cli.js -c",
     "build": "npm run every-dep -- \"npm run build\"",
     "build:prod": "npm run every-dep -- \"npm run build:prod\"",
