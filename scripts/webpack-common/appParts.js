@@ -17,7 +17,7 @@ function createAppParts(sourceDir, options = {}) {
         asAppBundle,
         resolveLibraryPeerDependencies,
         useHtmlPlugin,
-        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug )
+        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug)
     });
 
     /////
@@ -26,6 +26,15 @@ function createAppParts(sourceDir, options = {}) {
         return {
             devServer: {
                 inline: true,
+                // Parse host and port from env to allow customization.
+                //
+                // If you use Vagrant or Cloud9, set
+                // host: options.host || '0.0.0.0';
+                //
+                // 0.0.0.0 is available to all network devices
+                // unlike default `localhost`.
+                host: options.host, // Defaults to `localhost`
+                port: options.port, // Defaults to 8080
                 contentBase: 'build/',
                 historyApiFallback: true,
                 stats: 'errors-only' // none (or false), errors-only, minimal, normal (or true) and verbose
