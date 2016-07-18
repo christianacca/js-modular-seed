@@ -35,8 +35,8 @@ function prodOptimize () {
     };
 }
 
-function withEnvironment(isProd) {
-        if (isProd) {
+function withEnvironment(prod, debug) {
+        if (prod) {
             return merge(
                 {
                     devtool: 'source-map',
@@ -44,11 +44,19 @@ function withEnvironment(isProd) {
                 },
                 prodOptimize()
             );
-        } else {
+        } else if (debug) {
             return {
                 output: {
                     pathinfo: true
                 },
+                // note: wanted to use eval-source-map to increase build times, but chrome would not stop on breakpoint
+                // therefore instead using source-map
+                devtool: 'source-map'
+            };
+        } else {
+            return {
+                // note: wanted to use eval-source-map to increase build times, but chrome would not stop on breakpoint
+                // therefore instead using source-map
                 devtool: 'eval'
             };
         }

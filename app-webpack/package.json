@@ -4,8 +4,10 @@
   "description": "Example application and consumer of this project libraries. Uses webpack to bundle JS from both the application and library folders",
   "main": "index.js",
   "scripts": {
+    "start:debug": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.debug",
+    "start": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "prebuild": "npm run clean:build",
-    "build": "node ../scripts/node_modules/webpack/bin/webpack.js",
+    "build": "node ../scripts/node_modules/webpack/bin/webpack.js --env.debug",
     "prebuild:prod": "npm run clean:build",
     "build:prod": "node ../scripts/node_modules/webpack/bin/webpack.js --env.prod",
     "clean": "npm run clean:build",

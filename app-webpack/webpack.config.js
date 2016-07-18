@@ -1,9 +1,9 @@
 const path = require('path');
 const {merge} = require('../scripts/webpack-common/tools');
 
-module.exports = ({prod} = { prod: false }) => {
+module.exports = (env = { prod: false, debug: false }) => {
 
-    const parts = require('../scripts/webpack-common/appParts')(__dirname, prod);
+    const parts = require('../scripts/webpack-common/appParts')(__dirname, env);
 
     return merge(
         parts.asAppBundle(),

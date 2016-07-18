@@ -4,7 +4,9 @@
   "description": "Example application and consumer of this project libraries. Uses script references to serve JS",
   "main": "index.js",
   "scripts": {
+    "watch:debug": "node ../scripts/node_modules/webpack/bin/webpack.js --watch --env.debug",
     "watch": "node ../scripts/node_modules/webpack/bin/webpack.js --watch",
+    "server": "node ../scripts/node_modules/http-server/bin/http-server -c -1 -p 81 -o",
     "every-dep": "node ../scripts/node_modules/linklocal/bin/linklocal.js list | node ../scripts/node_modules/bulk/cli.js -c",
     "build": "npm run every-dep -- \"npm run build\"",
     "build:prod": "npm run every-dep -- \"npm run build:prod\"",

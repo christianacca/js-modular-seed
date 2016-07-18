@@ -22,13 +22,15 @@
     "url": "https://github.com/christianacca/js-modular-seed/issues"
   },
   "homepage": "https://github.com/christianacca/js-modular-seed#readme",
-  "devDependencies": {
+  "dependencies": {
     "bulk": "github:kumarharsh/bulk#windows-support",
     "html-webpack-plugin": "^2.22.0",
+    "http-server": "^0.9.0",
     "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
     "npm-run-all": "^2.3.0",
     "shx": "^0.1.2",
     "webpack": "^2.1.0-beta.15",
+    "webpack-dev-server": "^2.1.0-beta.0",
     "webpack-merge": "^0.14.0",
     "webpack-validator": "^2.2.2"
   }

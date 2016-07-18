@@ -4,7 +4,7 @@ const commonParts = require('./parts');
 
 module.exports = createLibraryParts;
 
-function createLibraryParts(sourceDir, isProd) {
+function createLibraryParts(sourceDir, options = {}) {
     const pkg = require(path.join(sourceDir, 'package'));
     const libraryName = pkg.name.split('/')[1];
 
@@ -12,13 +12,13 @@ function createLibraryParts(sourceDir, isProd) {
         asUmdLibrary,
         excludeNodeModule,
         excludeNodeModules,
-        withEnvironment: commonParts.withEnvironment.bind(null, isProd)
+        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug)
     });
 
     /////
 
     function asUmdLibrary() {
-        const filename = isProd ? `${libraryName}.umd.min.js` : `${libraryName}.umd.js`;
+        const filename = options.prod ? `${libraryName}.umd.min.js` : `${libraryName}.umd.js`;
         return {
             entry: path.join(sourceDir, 'index.js'),
             output: {

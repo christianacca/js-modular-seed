@@ -4,7 +4,7 @@ const commonParts = require('./parts');
 
 module.exports = createAppParts;
 
-function createAppParts(sourceDir, isProd) {
+function createAppParts(sourceDir, options = {}) {
     const PATHS = {
         build: path.join(sourceDir, 'build'),
         project: path.resolve(sourceDir, '../')
@@ -17,10 +17,21 @@ function createAppParts(sourceDir, isProd) {
         asAppBundle,
         resolveLibraryPeerDependencies,
         useHtmlPlugin,
-        withEnvironment: commonParts.withEnvironment.bind(null, isProd)
+        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug )
     });
 
     /////
+
+    function devServer() {
+        return {
+            devServer: {
+                inline: true,
+                contentBase: 'build/',
+                historyApiFallback: true,
+                stats: 'errors-only' // none (or false), errors-only, minimal, normal (or true) and verbose
+            }
+        };
+    }
 
     function getLibraryPackageDefs() {
         return appUtil.getLibraryNames()
@@ -58,6 +69,7 @@ function createAppParts(sourceDir, isProd) {
 
     function asAppBundle() {
         const isNodeModule = new RegExp('node_modules');
+
         return merge(
             {
                 entry: {
@@ -80,7 +92,8 @@ function createAppParts(sourceDir, isProd) {
                         minChunks: Infinity
                     })
                 ]
-            }
+            },
+            devServer()
         );
     }
 }
