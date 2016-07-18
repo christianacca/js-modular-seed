@@ -40,3 +40,4 @@ jspm_packages
 bundles
 dist
 build
+build-stats.json

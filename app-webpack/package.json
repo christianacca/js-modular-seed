@@ -6,11 +6,12 @@
   "scripts": {
     "start:debug": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.debug",
     "start": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "stats": "node ../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
     "prebuild": "npm run clean:build",
     "build": "node ../scripts/node_modules/webpack/bin/webpack.js --env.debug",
     "prebuild:prod": "npm run clean:build",
     "build:prod": "node ../scripts/node_modules/webpack/bin/webpack.js --env.prod",
-    "clean": "npm run clean:build",
+    "clean": "node ../scripts/node_modules/shx/lib/cli.js rm -rf build build-stats.json",
     "clean:build": "node ../scripts/node_modules/shx/lib/cli.js rm -rf build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "node ../scripts/node_modules/webpack/bin/webpack.js",
