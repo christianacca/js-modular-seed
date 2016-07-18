@@ -55,8 +55,6 @@ function withEnvironment(prod, debug) {
             };
         } else {
             return {
-                // note: wanted to use eval-source-map to increase build times, but chrome would not stop on breakpoint
-                // therefore instead using source-map
                 devtool: 'eval'
             };
         }
