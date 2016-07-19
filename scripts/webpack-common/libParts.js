@@ -21,6 +21,8 @@ function createLibraryParts(sourceDir, options = {}) {
         const filename = options.prod ? `${libraryName}.umd.min.js` : `${libraryName}.umd.js`;
         return {
             entry: path.join(sourceDir, 'index.js'),
+            // tells webpack not to include in bundle require'd node specific objects (eg path)
+            target: 'node',
             output: {
                 path: path.join(sourceDir, 'bundles'),
                 filename: filename,
