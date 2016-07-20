@@ -1,0 +1,15 @@
+#counter {
+    font-size: 20px;
+    font-weight: bold;
+    color: blue;
+}
+#image {
+    width: 16px;
+    height: 16px;
+    background-image: url('tick.png')
+}
+#largeImage {
+    width: 205px;
+    height: 89px;
+    background-image: url('twsrentatainer.png')
+}

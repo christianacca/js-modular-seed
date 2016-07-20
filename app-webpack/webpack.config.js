@@ -9,6 +9,7 @@ module.exports = (env = { prod: false, debug: false, port: 8080, host: 'localhos
         parts.asAppBundle(),
         parts.useHtmlPlugin(),
         parts.withEnvironment(),
-        parts.resolveLibraryPeerDependencies()
+        parts.resolveLibraryPeerDependencies(),
+        parts.resolveLoaders()
     );
 }

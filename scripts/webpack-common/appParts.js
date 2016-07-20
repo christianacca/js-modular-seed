@@ -7,7 +7,8 @@ module.exports = createAppParts;
 function createAppParts(sourceDir, options = {}) {
     const PATHS = {
         build: path.join(sourceDir, 'build'),
-        project: path.resolve(sourceDir, '../')
+        project: path.resolve(sourceDir, '../'),
+        scripts: path.resolve(sourceDir, '../scripts')
     };
 
     const appUtil = require('./appUtil')(sourceDir);
@@ -16,11 +17,25 @@ function createAppParts(sourceDir, options = {}) {
     return Object.assign({}, commonParts, {
         asAppBundle,
         resolveLibraryPeerDependencies,
+        resolveLoaders,
         useHtmlPlugin,
         withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug)
     });
 
     /////
+
+    function hmr() {
+        return {
+            devServer: {
+                hot: true
+            },
+            plugins: [// Enable multi-pass compilation for enhanced performance
+                // in larger projects. Good default.
+                new webpack.HotModuleReplacementPlugin({
+                    multiStep: true
+                })]
+        }
+    }
 
     function devServer() {
         return {
@@ -67,12 +82,40 @@ function createAppParts(sourceDir, options = {}) {
         };
     }
 
+    function resolveLoaders() {
+        return {
+            resolveLoader: {
+                modules: [path.join(PATHS.scripts, 'node_modules')]
+            }
+        }
+    }
+
     function useHtmlPlugin() {
         var HtmlWebpackPlugin = require('html-webpack-plugin');
         return {
             plugins: [new HtmlWebpackPlugin({
                 template: path.join(sourceDir, 'index.tpl.html')
             })]
+        }
+    }
+
+    function css() {
+        return {
+            module: {
+                loaders: [
+                    { test: /\.css$/, loader: 'style!css', include: path.join(sourceDir, 'public') }
+                ]
+            }
+        }
+    }
+
+    function inlineImages(sizeLimit=1024) {
+        return {
+            module: {
+                loaders: [
+                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, include: path.join(sourceDir, 'public') }
+                ]
+            }
         }
     }
 
@@ -91,18 +134,27 @@ function createAppParts(sourceDir, options = {}) {
                     chunkFilename: '[chunkhash].js'
                 },
                 plugins: [
+                    // include node_modules requested in a seperate bundle. This will include:
+                    // - all node_modules request by our app
+                    // - "external"" node_modules requested by our libraries - those node_modules
+                    //   that are not otherwise bundled into that library
                     new webpack.optimize.CommonsChunkPlugin({
                         name: 'vendor',
                         minChunks: module => isNodeModule.test(module.resource)
                     }),
-                    // ensure vendor hash does not change (as per solution discuess here https://github.com/webpack/webpack/issues/1315)
+                    // extract webpack manifest file into it's own chunk to ensure vendor hash does not change 
+                    // (as per solution discuess here https://github.com/webpack/webpack/issues/1315)
                     new webpack.optimize.CommonsChunkPlugin({
                         name: 'manifest',
                         minChunks: Infinity
                     })
                 ]
             },
-            devServer()
+            devServer(),
+            // hot module reload not working; wanted it for the css :-(
+            // hmr(),
+            css(),
+            inlineImages()
         );
     }
 }
