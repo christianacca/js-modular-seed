@@ -14,6 +14,7 @@ function createAppParts(rootDir, options = {}) {
 
     const appUtil = require('./appUtil')(rootDir);
     const pkg = appUtil.pkg;
+    const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 
     return Object.assign({}, commonParts, {
         asAppBundle,
@@ -110,7 +111,30 @@ function createAppParts(rootDir, options = {}) {
         }
     }
 
-    function inlineImages(sizeLimit=1024) {
+    function extractCss() {
+        const ExtractTextPlugin = require('extract-text-webpack-plugin');
+        return {
+            module: {
+                loaders: [
+                    // Extract CSS during build
+                    {
+                        test: /\.css$/,
+                        loader: ExtractTextPlugin.extract({
+                            fallbackLoader: "style",
+                            loader: "css?sourceMap"
+                        }),
+                        include: PATHS.source
+                    }
+                ]
+            },
+            plugins: [
+                // Output extracted CSS to a file
+                new ExtractTextPlugin('[name].[chunkhash].css')
+            ]
+        };
+    }
+
+    function inlineImages(sizeLimit = 1024) {
         return {
             module: {
                 loaders: [
@@ -155,6 +179,13 @@ function createAppParts(rootDir, options = {}) {
             // hot module reload not working; wanted it for the css :-(
             // hmr(),
             css(),
+            // there is a problem with extracting css into seperate file - js file hash changes whenever
+            // css changes and vice-versa;
+            // this kills client-side caching as the browser will request the js even if the css only has changed;
+            // therefore not using it here;
+            // note, that FOUC problem would be resolved by using a framework such as angular which provides
+            // strategies for not showing the dom controlled by a component whose styles are not yet loaded
+            // isDevServer ? css() : extractCss(),
             inlineImages()
         );
     }
