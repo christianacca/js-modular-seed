@@ -1,4 +1,5 @@
-import AppClass1 from './src/app-class1';
+import {AppClass1} from './app-class1';
+import {LandingComponent} from './landing';
 
 var obj = new AppClass1('app-cc');
 console.log(obj.name);
@@ -9,4 +10,5 @@ console.log(obj.lib1Obj.nameUpperCase());
 console.log(obj.lib1Obj.myKeys());
 console.log(obj.lib2Obj.getUniqueNameCount());
 
-obj.startCounter(document.getElementById('counter'));
+var landing = new LandingComponent(document.getElementsByClassName('landing')[0]);
+landing.startCounter();

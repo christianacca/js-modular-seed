@@ -1,14 +1,23 @@
-#counter {
+.landing {
+    border: 1px solid lightgray;
+    padding: 15px;
+}
+
+.landing h2, .landing h3 {
+    color: #444;
+}
+
+.landing .counter {
     font-size: 20px;
     font-weight: bold;
     color: blue;
 }
-#image {
+.landing .image {
     width: 16px;
     height: 16px;
     background-image: url('tick.png')
 }
-#largeImage {
+.landing .largeImage {
     width: 205px;
     height: 89px;
     background-image: url('twsrentatainer.png')

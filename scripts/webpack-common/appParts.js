@@ -4,14 +4,15 @@ const commonParts = require('./parts');
 
 module.exports = createAppParts;
 
-function createAppParts(sourceDir, options = {}) {
+function createAppParts(rootDir, options = {}) {
     const PATHS = {
-        build: path.join(sourceDir, 'build'),
-        project: path.resolve(sourceDir, '../'),
-        scripts: path.resolve(sourceDir, '../scripts')
+        build: path.join(rootDir, 'build'),
+        source: path.join(rootDir, 'src'),
+        project: path.resolve(rootDir, '../'),
+        scripts: path.resolve(rootDir, '../scripts')
     };
 
-    const appUtil = require('./appUtil')(sourceDir);
+    const appUtil = require('./appUtil')(rootDir);
     const pkg = appUtil.pkg;
 
     return Object.assign({}, commonParts, {
@@ -59,7 +60,7 @@ function createAppParts(sourceDir, options = {}) {
 
     function getLibraryPackageDefs() {
         return appUtil.getLibraryNames()
-            .map(name => path.join(sourceDir, 'node_modules', appUtil.projectScopeName, name, 'package'))
+            .map(name => path.join(rootDir, 'node_modules', appUtil.projectScopeName, name, 'package'))
             .map(pkgPath => require(pkgPath));
     }
 
@@ -74,7 +75,7 @@ function createAppParts(sourceDir, options = {}) {
             }, {})
         );
         const alias = peerDependencies.reduce((acc, name) => {
-            acc[name] = path.join(sourceDir, 'node_modules', name);
+            acc[name] = path.join(rootDir, 'node_modules', name);
             return acc;
         }, {});
         return {
@@ -94,7 +95,7 @@ function createAppParts(sourceDir, options = {}) {
         var HtmlWebpackPlugin = require('html-webpack-plugin');
         return {
             plugins: [new HtmlWebpackPlugin({
-                template: path.join(sourceDir, 'index.tpl.html')
+                template: path.join(rootDir, 'index.tpl.html')
             })]
         }
     }
@@ -103,7 +104,7 @@ function createAppParts(sourceDir, options = {}) {
         return {
             module: {
                 loaders: [
-                    { test: /\.css$/, loader: 'style!css', include: path.join(sourceDir, 'public') }
+                    { test: /\.css$/, loader: 'style!css', include: PATHS.source }
                 ]
             }
         }
@@ -113,7 +114,7 @@ function createAppParts(sourceDir, options = {}) {
         return {
             module: {
                 loaders: [
-                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, include: path.join(sourceDir, 'public') }
+                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, include: PATHS.source }
                 ]
             }
         }
@@ -125,7 +126,7 @@ function createAppParts(sourceDir, options = {}) {
         return merge(
             {
                 entry: {
-                    app: path.join(sourceDir, 'index.js')
+                    app: path.join(PATHS.source, 'main.js')
                 },
                 output: {
                     path: PATHS.build,

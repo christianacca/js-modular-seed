@@ -2,7 +2,7 @@
   "name": "@js-modular-seed/app-webpack",
   "version": "0.0.1",
   "description": "Example application and consumer of this project libraries. Uses webpack to bundle JS from both the application and library folders",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start:debug": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.debug",
     "start": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js",

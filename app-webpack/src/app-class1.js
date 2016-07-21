@@ -1,8 +1,8 @@
 import {Lib1Class1} from '@js-modular-seed/lib1';
 import {Lib2Class1} from '@js-modular-seed/lib2';
-import '../public/site.css'
+import './shared/site.css'
 
-export default function AppClass1(name) {
+export function AppClass1(name) {
     /**
      * reference to an instance of the Lib1Class1
      */
@@ -15,19 +15,6 @@ export default function AppClass1(name) {
      * name of this application class instance
      */
     this.name = name || this.lib1Obj.name;
-}
-
-AppClass1.prototype.startCounter = startCounter;
-
-function startCounter(displayContainer) {
-    var counter = 0;
-    increment();
-    setInterval(increment, 1000);
-
-    function increment() {
-        displayContainer.innerHTML = counter;
-        counter++;
-    }
 }
 
 var nameProperty = { 

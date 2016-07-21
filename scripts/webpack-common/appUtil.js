@@ -8,17 +8,17 @@ function createAppUtil(sourceDir) {
         project: path.resolve(sourceDir, '../')
     };
 
-    const rootPkg = require(path.resolve(PATHS.project, 'package'));
+    const projectPkg = require(path.resolve(PATHS.project, 'package'));
     const pkg = require(path.join(sourceDir, 'package'));
 
-    const projectScopeName = `@${rootPkg.name}`;
+    const projectScopeName = `@${projectPkg.name}`;
 
     return {
         getLibraryNames,
         getLibraryWebpackConfigs,
         pkg,
         projectScopeName,
-        rootPkg
+        projectPkg
     }
 
     function getLibraryWebpackConfigs() {
