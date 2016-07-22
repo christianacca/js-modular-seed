@@ -1,5 +1,6 @@
 const {merge, webpack} = require('./tools');
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const commonParts = require('./parts');
 
 module.exports = createAppParts;
@@ -12,16 +13,18 @@ function createAppParts(rootDir, options = {}) {
         scripts: path.resolve(rootDir, '../scripts')
     };
 
-    const appUtil = require('./appUtil')(rootDir);
-    const pkg = appUtil.pkg;
-    const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
+    const utils = require('./appUtil')(rootDir);
+    const pkg = utils.pkg;
 
     return Object.assign({}, commonParts, {
         asAppBundle,
+        css,
+        extractCssChunks,
         resolveLibraryPeerDependencies,
         resolveLoaders,
         useHtmlPlugin,
-        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug)
+        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug),
+        utils
     });
 
     /////
@@ -60,8 +63,8 @@ function createAppParts(rootDir, options = {}) {
     }
 
     function getLibraryPackageDefs() {
-        return appUtil.getLibraryNames()
-            .map(name => path.join(rootDir, 'node_modules', appUtil.projectScopeName, name, 'package'))
+        return utils.getLibraryNames()
+            .map(name => path.join(rootDir, 'node_modules', utils.projectScopeName, name, 'package'))
             .map(pkgPath => require(pkgPath));
     }
 
@@ -101,17 +104,65 @@ function createAppParts(rootDir, options = {}) {
         }
     }
 
-    function css() {
+    function css(excludeFiles) {
         return {
             module: {
                 loaders: [
-                    { test: /\.css$/, loader: 'style!css', include: PATHS.source }
+                    { test: /\.css$/, loader: 'style!css', include: PATHS.source, exclude: excludeFiles }
                 ]
             }
         }
     }
 
-    function extractCss() {
+    function extractCssChunks(entries) {
+
+        // todo: exclude redundant JS file created for each css chunk from the index.html file emitted by HtmlWebpackPlugin
+
+        const extractedPaths = Object.keys(entries).reduce((acc, entryName) => {
+            const files = entries[entryName];
+            return acc.concat(Array.isArray(files) ? files : [files]);
+        }, []);
+
+        const chunks = Object.keys(entries).reduce((acc, entryName) => {
+            const chunk = _extractCssChunk(entryName, entries[entryName]);
+            return acc.concat([chunk]);
+        }, []);
+
+        return merge(
+            ...chunks,
+            css(extractedPaths)
+        );
+    }
+
+    function _extractCssChunk(entryName, files) {
+        const extractor = new ExtractTextPlugin('[name].[chunkhash].css');
+        return {
+            entry: {
+                [entryName]: files
+            },
+            module: {
+                loaders: [
+                    {
+                        test: /\.css$/,
+                        loader: extractor.extract({
+                            fallbackLoader: "style",
+                            loader: "css?sourceMap"
+                        }),
+                        include: files
+                    }
+                ]
+            },
+            plugins: [
+                extractor,
+                new webpack.optimize.CommonsChunkPlugin({
+                    name: entryName,
+                    chunks: ['app', entryName]
+                })
+            ]
+        };
+    }
+
+    function extractCss(paths = PATHS.source) {
         const ExtractTextPlugin = require('extract-text-webpack-plugin');
         return {
             module: {
@@ -123,7 +174,7 @@ function createAppParts(rootDir, options = {}) {
                             fallbackLoader: "style",
                             loader: "css?sourceMap"
                         }),
-                        include: PATHS.source
+                        include: paths
                     }
                 ]
             },
@@ -133,6 +184,7 @@ function createAppParts(rootDir, options = {}) {
             ]
         };
     }
+
 
     function inlineImages(sizeLimit = 1024) {
         return {
@@ -178,14 +230,6 @@ function createAppParts(rootDir, options = {}) {
             devServer(),
             // hot module reload not working; wanted it for the css :-(
             // hmr(),
-            css(),
-            // there is a problem with extracting css into seperate file - js file hash changes whenever
-            // css changes and vice-versa;
-            // this kills client-side caching as the browser will request the js even if the css only has changed;
-            // therefore not using it here;
-            // note, that FOUC problem would be resolved by using a framework such as angular which provides
-            // strategies for not showing the dom controlled by a component whose styles are not yet loaded
-            // isDevServer ? css() : extractCss(),
             inlineImages()
         );
     }

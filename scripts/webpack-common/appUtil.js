@@ -12,10 +12,12 @@ function createAppUtil(sourceDir) {
     const pkg = require(path.join(sourceDir, 'package'));
 
     const projectScopeName = `@${projectPkg.name}`;
+    const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 
     return {
         getLibraryNames,
         getLibraryWebpackConfigs,
+        isDevServer,
         pkg,
         projectScopeName,
         projectPkg

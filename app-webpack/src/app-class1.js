@@ -1,6 +1,7 @@
 import {Lib1Class1} from '@js-modular-seed/lib1';
 import {Lib2Class1} from '@js-modular-seed/lib2';
 import './shared/site.css'
+import './shared/logo.css'
 
 export function AppClass1(name) {
     /**
