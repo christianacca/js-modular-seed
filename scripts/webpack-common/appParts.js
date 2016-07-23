@@ -105,8 +105,11 @@ function createAppParts(rootDir, options = {}) {
     }
 
     function sass(excludeFiles) {
+        // note: would like to use sourcemaps in a deployed website (ie outside of dev-server)
+        // but these do not work with relative paths (see the configuration of ouput options 
+        // in this file for more details)
         let loaders;
-        if (options.debug || options.prod) {
+        if ((options.debug || options.prod) && utils.isDevServer) {
             loaders = 'style!css?sourceMap!sass?sourceMap';
         } else {
             loaders = 'style!css!sass';
@@ -144,6 +147,8 @@ function createAppParts(rootDir, options = {}) {
         const extractor = new ExtractTextPlugin('[name].[chunkhash].css');
         let loader;
         if (options.debug || options.prod) {
+            // note: we CAN use source maps for *extracted* css files in a deployed website without 
+            // suffering from the problem of image urls not resolving to the correct path
             loader = 'css?sourceMap!sass?sourceMap';
         } else {
             loader = 'css!sass';
@@ -176,6 +181,14 @@ function createAppParts(rootDir, options = {}) {
 
     function extractCss(paths = PATHS.source) {
         const ExtractTextPlugin = require('extract-text-webpack-plugin');
+        let loader;
+        if (options.debug || options.prod) {
+            // note: we CAN use source maps for *extracted* css files in a deployed website without 
+            // suffering from the problem of image urls not resolving to the correct path
+            loader = 'css?sourceMap';
+        } else {
+            loader = 'css'
+        }
         return {
             module: {
                 loaders: [
@@ -183,8 +196,8 @@ function createAppParts(rootDir, options = {}) {
                     {
                         test: /\.css$/,
                         loader: ExtractTextPlugin.extract({
-                            fallbackLoader: "style",
-                            loader: "css?sourceMap"
+                            fallbackLoader: 'style',
+                            loader: loader
                         }),
                         include: paths
                     }
@@ -211,7 +224,7 @@ function createAppParts(rootDir, options = {}) {
     function asAppBundle() {
         const isNodeModule = new RegExp('node_modules');
 
-        return merge(
+        const common = merge(
             {
                 entry: {
                     app: path.join(PATHS.source, 'main.js')
@@ -240,9 +253,28 @@ function createAppParts(rootDir, options = {}) {
                 ]
             },
             devServer(),
-            // hot module reload not working; wanted it for the css :-(
-            // hmr(),
             inlineImages()
         );
+
+        if (utils.isDevServer) {
+            return merge(
+                common,
+                {
+                    output: {
+                        // ensure urls in css work in conjunction with source maps
+                        // this is required because of the limitation of style-loader
+                        // (see https://github.com/webpack/style-loader#recommended-configuration)
+                        publicPath: 'http://localhost:8080/'
+                    }
+                }//,
+                // hot module reload not working; wanted it for the css :-(
+                // hmr()
+            );
+        } else {
+            // note: we can't configure webpack to use root relative paths (ie publicPath: '/') as this limits
+            // site deployment to always the root of that website; in IIS for example it's common to use
+            // a subdirectory as the root folder for the web app
+            return common;
+        }
     }
 }
