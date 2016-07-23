@@ -179,38 +179,6 @@ function createAppParts(rootDir, options = {}) {
         };
     }
 
-    function extractCss(paths = PATHS.source) {
-        const ExtractTextPlugin = require('extract-text-webpack-plugin');
-        let loader;
-        if (options.debug || options.prod) {
-            // note: we CAN use source maps for *extracted* css files in a deployed website without 
-            // suffering from the problem of image urls not resolving to the correct path
-            loader = 'css?sourceMap';
-        } else {
-            loader = 'css'
-        }
-        return {
-            module: {
-                loaders: [
-                    // Extract CSS during build
-                    {
-                        test: /\.css$/,
-                        loader: ExtractTextPlugin.extract({
-                            fallbackLoader: 'style',
-                            loader: loader
-                        }),
-                        include: paths
-                    }
-                ]
-            },
-            plugins: [
-                // Output extracted CSS to a file
-                new ExtractTextPlugin('[name].[chunkhash].css')
-            ]
-        };
-    }
-
-
     function inlineImages(sizeLimit = 1024) {
         return {
             module: {
