@@ -32,6 +32,7 @@
     "linklocal": "github:theoy/linklocal#alwaysJunctionOnWindows",
     "node-sass": "^3.8.0",
     "npm-run-all": "^2.3.0",
+    "resolve-url-loader": "^1.6.0",
     "sass-loader": "^4.0.0",
     "shx": "^0.1.2",
     "style-loader": "^0.13.1",

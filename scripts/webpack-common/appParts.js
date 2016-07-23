@@ -20,6 +20,7 @@ function createAppParts(rootDir, options = {}) {
         asAppBundle,
         sass,
         extractSassChunks,
+        inlineImages,
         resolveLibraryPeerDependencies,
         resolveLoaders,
         useHtmlPlugin,
@@ -110,15 +111,19 @@ function createAppParts(rootDir, options = {}) {
         // in this file for more details)
         let loaders;
         if ((options.debug || options.prod) && utils.isDevServer) {
-            loaders = 'style!css?sourceMap!sass?sourceMap';
+            loaders = 'style!css?sourceMap!resolve-url!sass?sourceMap';
         } else {
-            loaders = 'style!css!sass';
+            // note: the 
+            loaders = 'style!css!resolve-url!sass?sourceMap';
         }
         return {
             module: {
                 loaders: [
                     { test: /\.scss$/, loaders: loaders, include: PATHS.source, exclude: excludeFiles }
                 ]
+            },
+            resolveUrlLoader: {
+                root: PATHS.source
             }
         }
     }
@@ -149,9 +154,9 @@ function createAppParts(rootDir, options = {}) {
         if (options.debug || options.prod) {
             // note: we CAN use source maps for *extracted* css files in a deployed website without 
             // suffering from the problem of image urls not resolving to the correct path
-            loader = 'css?sourceMap!sass?sourceMap';
+            loader = 'css?sourceMap!resolve-url!sass?sourceMap';
         } else {
-            loader = 'css!sass';
+            loader = 'css!resolve-url!sass?sourceMap';
         }
         return {
             entry: {
