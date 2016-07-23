@@ -18,8 +18,8 @@ function createAppParts(rootDir, options = {}) {
 
     return Object.assign({}, commonParts, {
         asAppBundle,
-        css,
-        extractCssChunks,
+        sass,
+        extractSassChunks,
         resolveLibraryPeerDependencies,
         resolveLoaders,
         useHtmlPlugin,
@@ -104,17 +104,23 @@ function createAppParts(rootDir, options = {}) {
         }
     }
 
-    function css(excludeFiles) {
+    function sass(excludeFiles) {
+        let loaders;
+        if (options.debug || options.prod) {
+            loaders = 'style!css?sourceMap!sass?sourceMap';
+        } else {
+            loaders = 'style!css!sass';
+        }
         return {
             module: {
                 loaders: [
-                    { test: /\.css$/, loader: 'style!css', include: PATHS.source, exclude: excludeFiles }
+                    { test: /\.scss$/, loaders: loaders, include: PATHS.source, exclude: excludeFiles }
                 ]
             }
         }
     }
 
-    function extractCssChunks(entries) {
+    function extractSassChunks(entries) {
 
         // todo: exclude redundant JS file created for each css chunk from the index.html file emitted by HtmlWebpackPlugin
 
@@ -124,18 +130,24 @@ function createAppParts(rootDir, options = {}) {
         }, []);
 
         const chunks = Object.keys(entries).reduce((acc, entryName) => {
-            const chunk = _extractCssChunk(entryName, entries[entryName]);
+            const chunk = _extractSassChunk(entryName, entries[entryName]);
             return acc.concat([chunk]);
         }, []);
 
         return merge(
             ...chunks,
-            css(extractedPaths)
+            sass(extractedPaths)
         );
     }
 
-    function _extractCssChunk(entryName, files) {
+    function _extractSassChunk(entryName, files) {
         const extractor = new ExtractTextPlugin('[name].[chunkhash].css');
+        let loader;
+        if (options.debug || options.prod) {
+            loader = 'css?sourceMap!sass?sourceMap';
+        } else {
+            loader = 'css!sass';
+        }
         return {
             entry: {
                 [entryName]: files
@@ -143,10 +155,10 @@ function createAppParts(rootDir, options = {}) {
             module: {
                 loaders: [
                     {
-                        test: /\.css$/,
+                        test: /\.scss$/,
                         loader: extractor.extract({
-                            fallbackLoader: "style",
-                            loader: "css?sourceMap"
+                            fallbackLoader: 'style',
+                            loader: loader
                         }),
                         include: files
                     }

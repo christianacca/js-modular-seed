@@ -7,10 +7,10 @@ module.exports = (env = { prod: false, debug: false, port: 8080, host: 'localhos
 
     return merge(
         parts.asAppBundle(),
-        parts.utils.isDevServer ? parts.css() : parts.extractCssChunks({
+        parts.utils.isDevServer ? parts.sass() : parts.extractSassChunks({
             styles: [
-                path.join(__dirname, 'src', 'shared', 'site.css'),
-                path.join(__dirname, 'src', 'shared', 'logo.css')
+                path.join(__dirname, 'src', 'shared', 'site.scss'),
+                path.join(__dirname, 'src', 'shared', 'logo.scss')
             ]
         }),
         parts.useHtmlPlugin(),

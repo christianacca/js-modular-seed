@@ -1,4 +1,4 @@
-import './landing.css'
+import './landing.scss'
 
 export function LandingComponent(containerElement) {
     this._counterElem = containerElement.getElementsByClassName('counter')[0];
