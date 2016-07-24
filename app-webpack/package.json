@@ -2,7 +2,10 @@
   "name": "@js-modular-seed/app-webpack",
   "version": "0.0.1",
   "description": "Example application and consumer of this project libraries. Uses webpack to bundle JS from both the application and library folders",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianacca/js-modular-seed.git"
+  },
   "scripts": {
     "start:debug": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.debug",
     "start": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js",
@@ -21,9 +24,13 @@
     "preshrinkwrap": "npm run shrinkwrap:remove && npm run unlink",
     "postshrinkwrap": "npm run relink"
   },
+  "private": true,
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },  
   "dependencies": {
     "@js-modular-seed/lib1": "0.0.2",
     "@js-modular-seed/lib2": "0.0.2",

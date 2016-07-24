@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Example application and consumer of this project libraries. Uses SystemJS to serve JS from the application and library folders",
   "main": "index.js",
+    "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianacca/js-modular-seed.git"
+  },
   "scripts": {
     "watch:debug": "node ../scripts/node_modules/webpack/bin/webpack.js --watch --env.debug",
     "watch": "node ../scripts/node_modules/webpack/bin/webpack.js --watch",
@@ -18,9 +22,13 @@
     "preshrinkwrap": "npm run shrinkwrap:remove && npm run unlink",
     "postshrinkwrap": "npm run relink"
   },
+  "private": true,
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },  
   "dependencies": {
     "@js-modular-seed/lib1": "0.0.2",
     "@js-modular-seed/lib2": "0.0.2",

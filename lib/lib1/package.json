@@ -19,6 +19,9 @@
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },  
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {

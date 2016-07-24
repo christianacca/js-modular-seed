@@ -3,6 +3,10 @@
   "version": "0.0.2",
   "description": "library that extracts part of the application responsibilities; as a seperate library it can be published to npm and then reused by other applications",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianacca/js-modular-seed.git"
+  },  
   "scripts": {
     "build": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.debug",
     "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
@@ -15,6 +19,9 @@
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },
   "dependencies": {
     "core-js": "^2.4.0"
   },
