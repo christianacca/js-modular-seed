@@ -21,7 +21,13 @@
     }
 
     function packUmd(pkgName) {
-        packages['@js-modular-seed/' + pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+        let mainFile = '/bundles/' + pkgName;
+        if (System.packageOptimize) {
+            mainFile += '.umd.min.js';
+        } else {
+            mainFile += '.umd.js';
+        }
+        packages['@js-modular-seed/' + pkgName] = { main: mainFile, defaultExtension: 'js' };
     }
 
     // Most environments should use UMD; some (Karma) need the individual index files

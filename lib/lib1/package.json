@@ -10,7 +10,7 @@
   "scripts": {
     "build": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.debug",
     "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
-    "build:full": "node ../../scripts/node_modules/npm-run-all/bin/run-p/index.js build build:prod",
+    "build:full": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --env.debug",
     "clean": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf bundles build-stats.json",
     "stats": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
     "webpack": "node ../../scripts/node_modules/webpack/bin/webpack.js",

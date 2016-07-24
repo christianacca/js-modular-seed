@@ -10,7 +10,6 @@
     "every-dep": "node ../scripts/node_modules/linklocal/bin/linklocal.js list | node ../scripts/node_modules/bulk/cli.js -c",
     "build": "npm run every-dep -- \"npm run build\"",
     "build:prod": "npm run every-dep -- \"npm run build:prod\"",
-    "build:full": "node ../scripts/node_modules/npm-run-all/bin/run-p/index.js build build:prod",
     "clean": "echo \"Nothing to clean\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "relink": "node ../scripts/node_modules/linklocal/bin/linklocal.js",
