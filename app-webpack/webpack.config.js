@@ -13,6 +13,7 @@ module.exports = (env = { prod: false, debug: false, port: 8080, host: 'localhos
                 path.join(__dirname, 'src', 'shared', 'logo.scss')
             ]
         }),
+        parts.inlineImages(),
         parts.useHtmlPlugin(),
         parts.withEnvironment(),
         parts.resolveLibraryPeerDependencies(),

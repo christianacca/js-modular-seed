@@ -1,0 +1,28 @@
+{
+  "name": "@js-modular-seed/lib3",
+  "version": "0.0.1",
+  "description": "library that extracts part of the application responsibilities; as a seperate library it can be published to npm and then reused by other applications",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianacca/js-modular-seed.git"
+  },
+  "scripts": {
+    "build": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.debug",
+    "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
+    "build:full": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --env.debug",
+    "clean": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf bundles build-stats.json",
+    "stats": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
+    "webpack": "node ../../scripts/node_modules/webpack/bin/webpack.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "christianacca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },  
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
+}

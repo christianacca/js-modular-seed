@@ -1,9 +1,10 @@
-(function (Lib1, Lib2, App) {
+(function (Lib1, Lib2, Lib3, App) {
     'use strict';
 
     // imports
     var Lib1Class1 = Lib1.Lib1Class1;
     var Lib2Class1 = Lib2.Lib2Class1;
+    var ClockComponent = Lib3.ClockComponent;
 
     // exports
     App.AppClass1 = AppClass1;
@@ -23,6 +24,22 @@
         this.name = name || this.lib1Obj.name;
     }
 
+    AppClass1.prototype.run = run;
+
+    function run() {
+        console.log(this.name);
+        console.log(this.lib1Obj.name);
+        console.log(this.lib2Obj.name);
+        console.log(this.lib2Obj.lib1Obj.name);
+        console.log(this.lib1Obj.nameUpperCase());
+        console.log(this.lib1Obj.myKeys());
+        console.log(this.lib2Obj.getUniqueNameCount());
+
+        const clock = new ClockComponent(document.getElementsByClassName('clock')[0]);
+        clock.render();
+    }
+
+
     var nameProperty = {
         enumerable: true,
         get: function () {
@@ -36,5 +53,6 @@
 })(
     this['@js-modular-seed/lib1'],
     this['@js-modular-seed/lib2'],
+    this['@js-modular-seed/lib3'],
     this['@js-modular-seed/app'] || (this['@js-modular-seed/app'] = {})
     );

@@ -16,6 +16,8 @@ function createAppUtil(sourceDir) {
 
     return {
         getLibraryNames,
+        getLibraryPaths,
+        getLibrarySourcePaths,
         getLibraryWebpackConfigs,
         isDevServer,
         pkg,
@@ -24,9 +26,19 @@ function createAppUtil(sourceDir) {
     }
 
     function getLibraryWebpackConfigs() {
-        return getLibraryNames()
-            .map(name => path.join(PATHS.project, 'lib', name, 'webpack.config'))
+        return getLibraryPaths()
+            .map(libPath => path.join(libPath, 'webpack.config'))
             .map(wepbackConfigPath => require(wepbackConfigPath));
+    }
+
+    function getLibraryPaths() {
+        return getLibraryNames()
+            .map(name => path.join(PATHS.project, 'lib', name));
+    }
+
+    function getLibrarySourcePaths() {
+        return getLibraryPaths()
+            .map(libPath => path.join(libPath, 'src'));
     }
 
     function getLibraryNames() {

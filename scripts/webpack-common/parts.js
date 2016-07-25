@@ -1,4 +1,5 @@
 const {merge, webpack} = require('./tools');
+const path = require('path');
 
 module.exports = {
     tools: {
@@ -6,6 +7,7 @@ module.exports = {
         webpack
     },
     prodOptimize,
+    resolveLoaders,
     withEnvironment
 };
 
@@ -34,6 +36,14 @@ function prodOptimize () {
         ]
     };
 }
+
+function resolveLoaders() {
+        return {
+            resolveLoader: {
+                modules: [path.resolve(__dirname, '..', 'node_modules')]
+            }
+        }
+    }
 
 function withEnvironment(prod, debug) {
         if (prod) {

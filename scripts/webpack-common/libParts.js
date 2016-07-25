@@ -5,6 +5,11 @@ const commonParts = require('./parts');
 module.exports = createLibraryParts;
 
 function createLibraryParts(sourceDir, options = {}) {
+
+    const PATHS = {
+        source: path.join(sourceDir, 'src')
+    };
+
     const pkg = require(path.join(sourceDir, 'package'));
     const libraryName = pkg.name.split('/')[1];
 
@@ -12,6 +17,8 @@ function createLibraryParts(sourceDir, options = {}) {
         asUmdLibrary,
         excludeNodeModule,
         excludeNodeModules,
+        inlineImages,
+        sass,
         withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug)
     });
 
@@ -80,5 +87,29 @@ function createLibraryParts(sourceDir, options = {}) {
             });
         });
         return Object.keys(deps);
+    }
+
+    function inlineImages(sizeLimit = 1024) {
+        return {
+            module: {
+                loaders: [
+                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name].[ext]`, include: PATHS.source }
+                ]
+            }
+        }
+    }
+
+    function sass() {
+        // note: would like to use sourcemaps in a deployed website but these do not work with relative paths
+        return {
+            module: {
+                loaders: [
+                    { test: /\.scss$/, loaders: 'style!css!resolve-url!sass?sourceMap', include: PATHS.source }
+                ]
+            },
+            resolveUrlLoader: {
+                root: PATHS.source
+            }
+        };
     }
 }

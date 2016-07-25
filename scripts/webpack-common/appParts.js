@@ -6,15 +6,15 @@ const commonParts = require('./parts');
 module.exports = createAppParts;
 
 function createAppParts(rootDir, options = {}) {
-    const PATHS = {
-        build: path.join(rootDir, 'build'),
-        source: path.join(rootDir, 'src'),
-        project: path.resolve(rootDir, '../'),
-        scripts: path.resolve(rootDir, '../scripts')
-    };
-
     const utils = require('./appUtil')(rootDir);
     const pkg = utils.pkg;
+
+    let PATHS = {
+        build: path.join(rootDir, 'build'),
+        source: path.join(rootDir, 'src'),
+        project: path.resolve(rootDir, '../')
+    };
+    PATHS.allSource = [PATHS.source, ...utils.getLibrarySourcePaths()];
 
     return Object.assign({}, commonParts, {
         asAppBundle,
@@ -22,7 +22,6 @@ function createAppParts(rootDir, options = {}) {
         extractSassChunks,
         inlineImages,
         resolveLibraryPeerDependencies,
-        resolveLoaders,
         useHtmlPlugin,
         withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug),
         utils
@@ -88,14 +87,6 @@ function createAppParts(rootDir, options = {}) {
         };
     }
 
-    function resolveLoaders() {
-        return {
-            resolveLoader: {
-                modules: [path.join(PATHS.scripts, 'node_modules')]
-            }
-        }
-    }
-
     function useHtmlPlugin() {
         var HtmlWebpackPlugin = require('html-webpack-plugin');
         return {
@@ -119,13 +110,18 @@ function createAppParts(rootDir, options = {}) {
         return {
             module: {
                 loaders: [
-                    { test: /\.scss$/, loaders: loaders, include: PATHS.source, exclude: excludeFiles }
+                    {
+                        test: /\.scss$/,
+                        loaders: loaders,
+                        include: PATHS.allSource,
+                        exclude: excludeFiles
+                    }
                 ]
             },
             resolveUrlLoader: {
                 root: PATHS.source
             }
-        }
+        };
     }
 
     function extractSassChunks(entries) {
@@ -188,7 +184,7 @@ function createAppParts(rootDir, options = {}) {
         return {
             module: {
                 loaders: [
-                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, include: PATHS.source }
+                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, include: PATHS.allSource }
                 ]
             }
         }
@@ -225,8 +221,7 @@ function createAppParts(rootDir, options = {}) {
                     })
                 ]
             },
-            devServer(),
-            inlineImages()
+            devServer()
         );
 
         if (utils.isDevServer) {

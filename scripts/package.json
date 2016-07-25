@@ -8,6 +8,7 @@
     "clean:full": "shx ls -d ../app-*/ ../lib/*/ | bulk -c \"shx rm -rf node_modules\"",
     "clean": "shx ls -d ../app-*/ ../lib/*/ | bulk -c \"npm run clean\"",
     "postinstall": "shx ls -d ../app-*/ ../lib/*/ | bulk -c \"npm install\" && shx ls -d ../app-*/ | bulk -c \"linklocal -r\"",
+    "tmp": "shx ls -d ../app-scripts/ | bulk -c \"npm install\" && shx ls -d ../app-scripts/ | bulk -c \"linklocal -r\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "validate": "shx ls -d ../app-webpack/ ../lib/*/ | bulk -c \"webpack-validator webpack.config.js\""
   },

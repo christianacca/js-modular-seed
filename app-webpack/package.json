@@ -34,10 +34,12 @@
   "dependencies": {
     "@js-modular-seed/lib1": "0.0.2",
     "@js-modular-seed/lib2": "0.0.2",
+    "@js-modular-seed/lib3": "0.0.1",
     "lodash": "^4.13.1"
   },
   "devDependencies": {
     "@js-modular-seed/lib1": "file:../lib/lib1",
-    "@js-modular-seed/lib2": "file:../lib/lib2"
+    "@js-modular-seed/lib2": "file:../lib/lib2",
+    "@js-modular-seed/lib3": "file:../lib/lib3"
   }
 }
