@@ -11,7 +11,6 @@ function createAppUtil(sourceDir) {
     const projectPkg = require(path.resolve(PATHS.project, 'package'));
     const pkg = require(path.join(sourceDir, 'package'));
 
-    const projectScopeName = `@${projectPkg.name}`;
     const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 
     return {
@@ -20,7 +19,6 @@ function createAppUtil(sourceDir) {
         getLibraryWebpackConfigs,
         isDevServer,
         pkg,
-        projectScopeName,
         projectPkg
     }
 
@@ -37,7 +35,7 @@ function createAppUtil(sourceDir) {
 
     function getLibraryNames() {
         return Object.keys(pkg.dependencies)
-            .filter(name => name.startsWith(projectScopeName))
+            .filter(name => name.startsWith(projectPkg.name) || name.startsWith(`@${projectPkg.name}`))
             .map(name => name.split('/')[1]);
     }
 }

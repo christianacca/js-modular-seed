@@ -62,8 +62,8 @@ function createAppParts(rootDir, options = {}) {
     }
 
     function getLibraryPackageDefs() {
-        return utils.getLibraryNames()
-            .map(name => path.join(rootDir, 'node_modules', utils.projectScopeName, name, 'package'))
+        return utils.getLibraryPaths()
+            .map(libPath => path.join(libPath, 'package'))
             .map(pkgPath => require(pkgPath));
     }
 
