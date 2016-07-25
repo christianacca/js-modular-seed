@@ -10,7 +10,7 @@ module.exports = function (partsFactory) {
             configs.push(configFactory(debugEnv, partsFactory(sourceDir, debugEnv)));
         }
         if (!env.debug && !env.prod) {
-            configs.push(configFactory(env), partsFactory(sourceDir, env));
+            configs.push(configFactory(env, partsFactory(sourceDir, env)));
         }
         return configs;
     }
