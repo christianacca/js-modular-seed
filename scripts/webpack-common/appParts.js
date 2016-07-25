@@ -96,6 +96,7 @@ function createAppParts(rootDir, options = {}) {
     }
 
     function sass(excludeFiles) {
+        excludeFiles = excludeFiles || [];
         // note: would like to use sourcemaps in a deployed website (ie outside of dev-server)
         // but these do not work with relative paths (see the configuration of ouput options 
         // in this file for more details)
@@ -112,7 +113,7 @@ function createAppParts(rootDir, options = {}) {
                     {
                         test: /\.scss$/,
                         loaders: loaders,
-                        exclude: excludeFiles
+                        exclude: [/node_modules/, ...excludeFiles]
                     }
                 ]
             },
