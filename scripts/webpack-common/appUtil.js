@@ -17,7 +17,6 @@ function createAppUtil(sourceDir) {
     return {
         getLibraryNames,
         getLibraryPaths,
-        getLibrarySourcePaths,
         getLibraryWebpackConfigs,
         isDevServer,
         pkg,
@@ -34,11 +33,6 @@ function createAppUtil(sourceDir) {
     function getLibraryPaths() {
         return getLibraryNames()
             .map(name => path.join(PATHS.project, 'lib', name));
-    }
-
-    function getLibrarySourcePaths() {
-        return getLibraryPaths()
-            .map(libPath => path.join(libPath, 'src'));
     }
 
     function getLibraryNames() {

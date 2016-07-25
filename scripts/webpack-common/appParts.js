@@ -14,7 +14,6 @@ function createAppParts(rootDir, options = {}) {
         source: path.join(rootDir, 'src'),
         project: path.resolve(rootDir, '../')
     };
-    PATHS.allSource = [PATHS.source, ...utils.getLibrarySourcePaths()];
 
     return Object.assign({}, commonParts, {
         asAppBundle,
@@ -113,7 +112,6 @@ function createAppParts(rootDir, options = {}) {
                     {
                         test: /\.scss$/,
                         loaders: loaders,
-                        include: PATHS.allSource,
                         exclude: excludeFiles
                     }
                 ]
@@ -184,7 +182,10 @@ function createAppParts(rootDir, options = {}) {
         return {
             module: {
                 loaders: [
-                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, include: PATHS.allSource }
+                    { 
+                        test: /\.(jpg|png)$/, 
+                        loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, 
+                        exclude: /node_modules/ }
                 ]
             }
         }
