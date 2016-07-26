@@ -1,25 +1,22 @@
-const {merge} = require('./tools');
+const {merge, webpack} = require('./tools');
 const path = require('path');
-const commonParts = require('./parts');
 
 module.exports = createLibraryParts;
 
 function createLibraryParts(sourceDir, options = {}) {
+    const commonParts = require('./parts')(sourceDir, options);
+    const pkg = require(path.join(sourceDir, 'package'));
+    const libraryName = pkg.name.split('/')[1];
 
     const PATHS = {
         source: path.join(sourceDir, 'src')
     };
 
-    const pkg = require(path.join(sourceDir, 'package'));
-    const libraryName = pkg.name.split('/')[1];
-
     return Object.assign({}, commonParts, {
         asUmdLibrary,
         excludeNodeModule,
         excludeNodeModules,
-        inlineImages,
-        sass,
-        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug)
+        inlineImages
     });
 
     /////
@@ -93,23 +90,13 @@ function createLibraryParts(sourceDir, options = {}) {
         return {
             module: {
                 loaders: [
-                    { test: /\.(jpg|png)$/, loader: `url?limit=${sizeLimit}&name=[path][name].[ext]`, include: PATHS.source }
+                    {
+                        test: /\.(jpg|png)$/,
+                        loader: `url?limit=${sizeLimit}&name=[path][name].[ext]`,
+                        include: PATHS.source
+                    }
                 ]
             }
         }
-    }
-
-    function sass() {
-        // note: would like to use sourcemaps in a deployed website but these do not work with relative paths
-        return {
-            module: {
-                loaders: [
-                    { test: /\.scss$/, loaders: 'style!css!resolve-url!sass?sourceMap', include: PATHS.source }
-                ]
-            },
-            resolveUrlLoader: {
-                root: PATHS.source
-            }
-        };
     }
 }

@@ -1,11 +1,11 @@
 const {merge, webpack} = require('./tools');
-const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const commonParts = require('./parts');
+const path = require('path');
 
 module.exports = createAppParts;
 
 function createAppParts(rootDir, options = {}) {
+    const commonParts = require('./parts')(rootDir, options);
     const utils = require('./appUtil')(rootDir);
     const pkg = utils.pkg;
 
@@ -17,12 +17,10 @@ function createAppParts(rootDir, options = {}) {
 
     return Object.assign({}, commonParts, {
         asAppBundle,
-        sass,
         extractSassChunks,
         inlineImages,
         resolveLibraryPeerDependencies,
         useHtmlPlugin,
-        withEnvironment: commonParts.withEnvironment.bind(null, options.prod, options.debug),
         utils
     });
 
@@ -95,34 +93,6 @@ function createAppParts(rootDir, options = {}) {
         }
     }
 
-    function sass(excludeFiles) {
-        excludeFiles = excludeFiles || [];
-        // note: would like to use sourcemaps in a deployed website (ie outside of dev-server)
-        // but these do not work with relative paths (see the configuration of ouput options 
-        // in this file for more details)
-        let loaders;
-        if ((options.debug || options.prod) && utils.isDevServer) {
-            loaders = 'style!css?sourceMap!resolve-url!sass?sourceMap';
-        } else {
-            // note: the 
-            loaders = 'style!css!resolve-url!sass?sourceMap';
-        }
-        return {
-            module: {
-                loaders: [
-                    {
-                        test: /\.scss$/,
-                        loaders: loaders,
-                        exclude: [/node_modules/, ...excludeFiles]
-                    }
-                ]
-            },
-            resolveUrlLoader: {
-                root: PATHS.source
-            }
-        };
-    }
-
     function extractSassChunks(entries) {
 
         // todo: exclude redundant JS file created for each css chunk from the index.html file emitted by HtmlWebpackPlugin
@@ -139,7 +109,7 @@ function createAppParts(rootDir, options = {}) {
 
         return merge(
             ...chunks,
-            sass(extractedPaths)
+            commonParts.sass(extractedPaths)
         );
     }
 
@@ -173,7 +143,7 @@ function createAppParts(rootDir, options = {}) {
                 extractor,
                 new webpack.optimize.CommonsChunkPlugin({
                     name: entryName,
-                    chunks: ['app', entryName]
+                    chunks: ['main', entryName]
                 })
             ]
         };
@@ -186,7 +156,8 @@ function createAppParts(rootDir, options = {}) {
                     { 
                         test: /\.(jpg|png)$/, 
                         loader: `url?limit=${sizeLimit}&name=[path][name]-[hash].[ext]`, 
-                        exclude: /node_modules/ }
+                        exclude: /node_modules/ 
+                    }
                 ]
             }
         }
@@ -198,7 +169,7 @@ function createAppParts(rootDir, options = {}) {
         const common = merge(
             {
                 entry: {
-                    app: path.join(PATHS.source, 'main.js')
+                    main: path.join(PATHS.source, 'main.js')
                 },
                 output: {
                     path: PATHS.build,

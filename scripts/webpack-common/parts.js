@@ -1,43 +1,52 @@
 const {merge, webpack} = require('./tools');
 const path = require('path');
 
-module.exports = {
-    tools: {
-        merge,
-        webpack
-    },
-    prodOptimize,
-    resolveLoaders,
-    withEnvironment
-};
+module.exports = createParts;
 
-function prodOptimize () {
+function createParts(rootDir, options) {
+
+    const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
+
     return {
-        plugins: [
-            // doesn't save anything in this small app. npm@3 mostly takes care of this
-            new webpack.optimize.DedupePlugin(),
-            new webpack.LoaderOptionsPlugin({
-                minimize: true,
-                debug: false,
-                quiet: true,
-            }),
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: '"production"',
-                },
-            }),
-            new webpack.optimize.UglifyJsPlugin({
-                compress: {
-                    screw_ie8: true, // eslint-disable-line
-                    warnings: false,
-                },
-                sourceMap: true
-            })
-        ]
+        tools: {
+            merge,
+            webpack
+        },
+        prodOptimize,
+        resolveLoaders,
+        sass,
+        withEnvironment
     };
-}
 
-function resolveLoaders() {
+    ////////
+
+    function prodOptimize() {
+        return {
+            plugins: [
+                // doesn't save anything in this small app. npm@3 mostly takes care of this
+                new webpack.optimize.DedupePlugin(),
+                new webpack.LoaderOptionsPlugin({
+                    minimize: true,
+                    debug: false,
+                    quiet: true,
+                }),
+                new webpack.DefinePlugin({
+                    'process.env': {
+                        NODE_ENV: '"production"',
+                    },
+                }),
+                new webpack.optimize.UglifyJsPlugin({
+                    compress: {
+                        screw_ie8: true, // eslint-disable-line
+                        warnings: false,
+                    },
+                    sourceMap: true
+                })
+            ]
+        };
+    }
+
+    function resolveLoaders() {
         return {
             resolveLoader: {
                 modules: [path.resolve(__dirname, '..', 'node_modules')]
@@ -45,8 +54,33 @@ function resolveLoaders() {
         }
     }
 
-function withEnvironment(prod, debug) {
-        if (prod) {
+    function sass(excludeFiles) {
+        excludeFiles = excludeFiles || [];
+        // note: would like to use sourcemaps in a deployed website (ie outside of dev-server)
+        // but these do not work with relative paths (see the configuration of ouput options 
+        // in this file for more details)
+        let loaders;
+        if ((options.debug || options.prod) && isDevServer) {
+            loaders = 'style!css?sourceMap!resolve-url!sass?sourceMap';
+        } else {
+            // note: the 
+            loaders = 'style!css!resolve-url!sass?sourceMap';
+        }
+        return {
+            module: {
+                loaders: [
+                    {
+                        test: /\.scss$/,
+                        loaders: loaders,
+                        exclude: [/node_modules/, ...excludeFiles]
+                    }
+                ]
+            }
+        };
+    }
+
+    function withEnvironment() {
+        if (options.prod) {
             return merge(
                 {
                     devtool: 'source-map',
@@ -54,7 +88,7 @@ function withEnvironment(prod, debug) {
                 },
                 prodOptimize()
             );
-        } else if (debug) {
+        } else if (options.debug) {
             return {
                 output: {
                     pathinfo: true
@@ -69,3 +103,4 @@ function withEnvironment(prod, debug) {
             };
         }
     }
+}
