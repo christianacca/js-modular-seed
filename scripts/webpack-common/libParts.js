@@ -1,4 +1,5 @@
 const {merge, webpack} = require('./tools');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 module.exports = createLibraryParts;
@@ -14,6 +15,7 @@ function createLibraryParts(sourceDir, options = {}) {
 
     return Object.assign({}, commonParts, {
         asUmdLibrary,
+        extractSass,
         excludeNodeModule,
         excludeNodeModules,
         inlineImages
@@ -22,9 +24,11 @@ function createLibraryParts(sourceDir, options = {}) {
     /////
 
     function asUmdLibrary() {
-        const filename = options.prod ? `${libraryName}.umd.min.js` : `${libraryName}.umd.js`;
+        const filename = options.prod ? `[name].umd.min.js` : `[name].umd.js`;
         return {
-            entry: path.join(sourceDir, 'index.js'),
+            entry: {
+                [libraryName]: path.join(sourceDir, 'index.js')
+            },
             // tells webpack not to include in bundle require'd node specific objects (eg path)
             target: 'node',
             output: {
@@ -73,6 +77,47 @@ function createLibraryParts(sourceDir, options = {}) {
                 }
             });
         }
+    }
+
+    function extractSass(files) {
+
+        // todo: discover the scss files rather than pass them in
+        // todo: exclude redundant JS file created for each css chunk from the index.html file emitted by HtmlWebpackPlugin
+
+        const filename = options.prod ? `${libraryName}.umd.min.css` : `${libraryName}.umd.css`;
+        const extractor = new ExtractTextPlugin(filename);
+        let loader;
+        if (options.debug || options.prod) {
+            // note: we CAN use source maps for *extracted* css files in a deployed website without 
+            // suffering from the problem of image urls not resolving to the correct path
+            loader = 'css?sourceMap!resolve-url!sass?sourceMap';
+        } else {
+            loader = 'css!resolve-url!sass?sourceMap';
+        }
+        return {
+            entry: {
+                styles: files
+            },
+            module: {
+                loaders: [
+                    {
+                        test: /\.scss$/,
+                        loader: extractor.extract({
+                            fallbackLoader: 'style',
+                            loader: loader
+                        }),
+                        include: files
+                    }
+                ]
+            },
+            plugins: [
+                extractor,
+                new webpack.optimize.CommonsChunkPlugin({
+                    name: libraryName,
+                    minChunks: Infinity
+                })
+            ]
+        };
     }
 
     function getDependencies() {
