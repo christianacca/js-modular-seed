@@ -180,7 +180,7 @@ function createAppParts(rootDir, options = {}) {
                 plugins: [
                     // include node_modules requested in a seperate bundle. This will include:
                     // - all node_modules request by our app
-                    // - "external"" node_modules requested by our libraries - those node_modules
+                    // - "external" node_modules requested by our libraries - those node_modules
                     //   that are not otherwise bundled into that library
                     new webpack.optimize.CommonsChunkPlugin({
                         name: 'vendor',
