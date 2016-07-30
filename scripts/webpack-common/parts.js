@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = createParts;
 
-function createParts(rootDir, options) {
+function createParts(rootDir, env) {
 
     const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 
@@ -60,7 +60,7 @@ function createParts(rootDir, options) {
         // but these do not work with relative paths (see the configuration of ouput options 
         // in this file for more details)
         let loaders;
-        if ((options.debug || options.prod) && isDevServer) {
+        if ((env.debug || env.prod) && isDevServer) {
             loaders = 'style!css?sourceMap!resolve-url!sass?sourceMap';
         } else {
             // note: the 
@@ -80,7 +80,7 @@ function createParts(rootDir, options) {
     }
 
     function withEnvironment() {
-        if (options.prod) {
+        if (env.prod) {
             return merge(
                 {
                     devtool: 'source-map',
@@ -88,7 +88,7 @@ function createParts(rootDir, options) {
                 },
                 prodOptimize()
             );
-        } else if (options.debug) {
+        } else if (env.debug) {
             return {
                 output: {
                     pathinfo: true

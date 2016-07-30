@@ -4,8 +4,8 @@ const path = require('path');
 
 module.exports = createAppParts;
 
-function createAppParts(rootDir, options = {}) {
-    const commonParts = require('./parts')(rootDir, options);
+function createAppParts(rootDir, env = {}) {
+    const commonParts = require('./parts')(rootDir, env);
     const utils = require('./appUtil')(rootDir);
     const pkg = utils.pkg;
 
@@ -50,8 +50,8 @@ function createAppParts(rootDir, options = {}) {
                 //
                 // 0.0.0.0 is available to all network devices
                 // unlike default `localhost`.
-                host: options.host, // Defaults to `localhost`
-                port: options.port, // Defaults to 8080
+                host: env.host, // Defaults to `localhost`
+                port: env.port, // Defaults to 8080
                 contentBase: 'build/',
                 historyApiFallback: true,
                 stats: 'errors-only' // none (or false), errors-only, minimal, normal (or true) and verbose
@@ -116,7 +116,7 @@ function createAppParts(rootDir, options = {}) {
     function _extractSassChunk(entryName, files) {
         const extractor = new ExtractTextPlugin('[name].[chunkhash].css');
         let loader;
-        if (options.debug || options.prod) {
+        if (env.debug || env.prod) {
             // note: we CAN use source maps for *extracted* css files in a deployed website without 
             // suffering from the problem of image urls not resolving to the correct path
             loader = 'css?sourceMap!resolve-url!sass?sourceMap';

@@ -4,13 +4,13 @@ const path = require('path');
 
 module.exports = createLibraryParts;
 
-function createLibraryParts(sourceDir, options = {}) {
-    const commonParts = require('./parts')(sourceDir, options);
-    const pkg = require(path.join(sourceDir, 'package'));
+function createLibraryParts(rootDir, env = {}) {
+    const commonParts = require('./parts')(rootDir, env);
+    const pkg = require(path.join(rootDir, 'package'));
     const libraryName = pkg.name.split('/')[1];
 
     const PATHS = {
-        source: path.join(sourceDir, 'src')
+        source: path.join(rootDir, 'src')
     };
 
     return Object.assign({}, commonParts, {
@@ -24,15 +24,15 @@ function createLibraryParts(sourceDir, options = {}) {
     /////
 
     function asUmdLibrary() {
-        const filename = options.prod ? `[name].umd.min.js` : `[name].umd.js`;
+        const filename = env.prod ? `[name].umd.min.js` : `[name].umd.js`;
         return {
             entry: {
-                [libraryName]: path.join(sourceDir, 'index.js')
+                [libraryName]: path.join(rootDir, 'index.js')
             },
             // tells webpack not to include in bundle require'd node specific objects (eg path)
             target: 'node',
             output: {
-                path: path.join(sourceDir, 'bundles'),
+                path: path.join(rootDir, 'bundles'),
                 filename: filename,
                 library: pkg.name,
                 libraryTarget: 'umd',
@@ -84,10 +84,10 @@ function createLibraryParts(sourceDir, options = {}) {
         // todo: discover the scss files rather than pass them in
         // todo: exclude redundant JS file created for each css chunk from the index.html file emitted by HtmlWebpackPlugin
 
-        const filename = options.prod ? `${libraryName}.umd.min.css` : `${libraryName}.umd.css`;
+        const filename = env.prod ? `${libraryName}.umd.min.css` : `${libraryName}.umd.css`;
         const extractor = new ExtractTextPlugin(filename);
         let loader;
-        if (options.debug || options.prod) {
+        if (env.debug || env.prod) {
             // note: we CAN use source maps for *extracted* css files in a deployed website without 
             // suffering from the problem of image urls not resolving to the correct path
             loader = 'css?sourceMap!resolve-url!sass?sourceMap';
