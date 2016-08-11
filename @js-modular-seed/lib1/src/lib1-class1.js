@@ -5,7 +5,7 @@ export function Lib1Class1(name) {
     /**
      * name of this instance
      */
-    this.name = name || 'class1';
+    this.name = name || 'libclass1';
 }
 
 Lib1Class1.prototype.myKeys = myKeys;

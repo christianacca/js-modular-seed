@@ -14,7 +14,6 @@ function createAppUtil(sourceDir) {
     const isDevServer = process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 
     return {
-        getLibraryNames,
         getLibraryPaths,
         getLibraryWebpackConfigs,
         isDevServer,
@@ -30,12 +29,20 @@ function createAppUtil(sourceDir) {
 
     function getLibraryPaths() {
         return getLibraryNames()
-            .map(name => path.join(PATHS.project, 'lib', name));
+            .map(({package, scope} = name) => {
+                return path.join(PATHS.project, scope || 'lib', package);
+            });
     }
 
     function getLibraryNames() {
         return Object.keys(pkg.dependencies)
             .filter(name => name.startsWith(projectPkg.name) || name.startsWith(`@${projectPkg.name}`))
-            .map(name => name.split('/')[1]);
+            .map(name => {
+                const parts = name.split('/');
+                return {
+                    scope: parts[0],
+                    package: parts[1]
+                }
+            });
     }
 }
