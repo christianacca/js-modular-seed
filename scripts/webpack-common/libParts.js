@@ -7,7 +7,7 @@ module.exports = createLibraryParts;
 function createLibraryParts(rootDir, env = {}) {
     const commonParts = require('./parts')(rootDir, env);
     const pkg = require(path.join(rootDir, 'package'));
-    const libraryName = pkg.name.split('/')[1];
+    const libraryName = pkg.name.indexOf('/') !== -1 ? pkg.name.split('/')[1] : pkg.name;
 
     const PATHS = {
         source: path.join(rootDir, 'src')
