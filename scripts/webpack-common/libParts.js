@@ -81,9 +81,6 @@ function createLibraryParts(rootDir, env = {}) {
 
     function extractSass(files) {
 
-        // todo: discover the scss files rather than pass them in
-        // todo: exclude redundant JS file created for each css chunk from the index.html file emitted by HtmlWebpackPlugin
-
         const filename = env.prod ? `${libraryName}.umd.min.css` : `${libraryName}.umd.css`;
         const extractor = new ExtractTextPlugin(filename);
         let loader;
@@ -111,11 +108,7 @@ function createLibraryParts(rootDir, env = {}) {
                 ]
             },
             plugins: [
-                extractor,
-                new webpack.optimize.CommonsChunkPlugin({
-                    name: libraryName,
-                    minChunks: Infinity
-                })
+                extractor
             ]
         };
     }
