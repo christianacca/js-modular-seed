@@ -20,8 +20,8 @@
     "postinstall-dep": "npm run linklocal",
     "test": "echo \"Error: no test specified\" && exit 1",
     "_linklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js",
-    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 ../../ && npm prune",
-    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 ../../ && npm i",
+    "linklocal": "npm run _linklocal && npm prune",
+    "unlinklocal": "npm run _linklocal -- unlink && npm i",
     "preuninstall-dep": "npm run unlinklocal",
     "uninstall-dep": "npm uninstall",
     "postuninstall-dep": "npm run linklocal"
@@ -34,8 +34,8 @@
     "url": "https://github.com/christianacca/js-modular-seed/issues"
   },  
   "dependencies": {
-    "@js-modular-seed/lib1": "0.0.2",
-    "@js-modular-seed/lib2": "0.0.2",
+    "@js-modular-seed/lib1": "file:../lib1",
+    "@js-modular-seed/lib2": "file:../lib2",
     "lodash": "^4.13.1",
     "systemjs": "^0.19.31",
     "systemjs-plugin-babel": "0.0.12"

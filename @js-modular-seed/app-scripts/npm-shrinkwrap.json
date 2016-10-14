@@ -4,18 +4,18 @@
   "dependencies": {
     "@js-modular-seed/lib1": {
       "version": "0.0.2",
-      "from": "@js-modular-seed/lib1@0.0.2",
-      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib1/-/lib1-0.0.2.tgz"
+      "from": "..\\lib1",
+      "resolved": "file:..\\lib1"
     },
     "@js-modular-seed/lib2": {
       "version": "0.0.2",
-      "from": "@js-modular-seed/lib2@0.0.2",
-      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib2/-/lib2-0.0.2.tgz"
+      "from": "..\\lib2",
+      "resolved": "file:..\\lib2"
     },
     "@js-modular-seed/lib3": {
       "version": "0.0.1",
-      "from": "@js-modular-seed/lib3@0.0.1",
-      "resolved": "https://registry.npmjs.org/@js-modular-seed/lib3/-/lib3-0.0.1.tgz"
+      "from": "..\\lib3",
+      "resolved": "file:..\\lib3"
     },
     "core-js": {
       "version": "2.4.0",
