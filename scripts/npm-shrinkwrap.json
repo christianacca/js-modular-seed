@@ -347,8 +347,8 @@
     },
     "bulk": {
       "version": "2.0.0",
-      "from": "kumarharsh/bulk#windows-support",
-      "resolved": "git://github.com/kumarharsh/bulk.git#14b9feacc5174c732fafa546b9cdbdea2cae410d"
+      "from": "git+https://github.com/kumarharsh/bulk.git#68ac8daa57191f7ea79279b22b0876cf4ab19575",
+      "resolved": "git+https://github.com/kumarharsh/bulk.git#68ac8daa57191f7ea79279b22b0876cf4ab19575"
     },
     "bytes": {
       "version": "2.3.0",
@@ -1557,7 +1557,7 @@
     "linklocal": {
       "version": "2.6.0",
       "from": "theoy/linklocal#alwaysJunctionOnWindows",
-      "resolved": "git://github.com/theoy/linklocal.git#3f939171c3c925f2af831d78a3f2fbf9caa3002e",
+      "resolved": "git+https://github.com/theoy/linklocal.git#3f939171c3c925f2af831d78a3f2fbf9caa3002e",
       "dependencies": {
         "commander": {
           "version": "2.8.1",
