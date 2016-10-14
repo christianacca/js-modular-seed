@@ -17,8 +17,8 @@
     "clean": "echo \"Nothing to clean\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "_linklocal": "node ../scripts/node_modules/linklocal/bin/linklocal.js",
-    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 ../",
-    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 ../ && npm install --production",
+    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 ../ && npm prune",
+    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 ../ && npm i",
     "shrinkwrap:remove": "del npm-shrinkwrap.json",
     "preshrinkwrap": "npm run shrinkwrap:remove && npm run unlinklocal",
     "postshrinkwrap": "npm run linklocal"

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start:debug": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.debug",
-    "start": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start": "node ../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --open",
     "stats": "node ../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
     "prebuild": "npm run clean:build",
     "build": "node ../scripts/node_modules/webpack/bin/webpack.js --env.debug",
@@ -19,8 +19,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "node ../scripts/node_modules/webpack/bin/webpack.js",
     "_linklocal": "node ../scripts/node_modules/linklocal/bin/linklocal.js",
-    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../",
-    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../ && npm install --production",
+    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../ && npm prune",
+    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../ && npm i",
     "shrinkwrap:remove": "del npm-shrinkwrap.json",
     "preshrinkwrap": "npm run shrinkwrap:remove && npm run unlinklocal",
     "postshrinkwrap": "npm run linklocal"

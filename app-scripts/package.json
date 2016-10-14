@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Example application and consumer of this project libraries. Uses script references to serve JS",
   "main": "index.js",
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/christianacca/js-modular-seed.git"
   },
@@ -17,19 +17,19 @@
     "clean": "echo \"Nothing to clean\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "_linklocal": "node ../scripts/node_modules/linklocal/bin/linklocal.js",
-    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../",
-    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../ && npm install --production",
+    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../  && npm prune",
+    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../ && npm i",
     "shrinkwrap:remove": "del npm-shrinkwrap.json",
     "preshrinkwrap": "npm run shrinkwrap:remove && npm run unlinklocal",
     "postshrinkwrap": "npm run linklocal"
   },
-  "private": true,  
+  "private": true,
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/christianacca/js-modular-seed/issues"
-  },  
+  },
   "dependencies": {
     "@js-modular-seed/lib1": "0.0.2",
     "@js-modular-seed/lib2": "0.0.2",
