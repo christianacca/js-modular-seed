@@ -12,8 +12,9 @@
     "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
     "build:full": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --env.debug",
     "clean": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf bundles build-stats.json",
-    "linklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js",
-    "unlinklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
+    "_linklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js",
+    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 ../../  && npm prune",
+    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 ../../ && npm i",
     "stats": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
     "webpack": "node ../../scripts/node_modules/webpack/bin/webpack.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +29,8 @@
     "core-js": "^2.4.0"
   },
   "devDependencies": {
-    "@js-modular-seed/lib1": "file:../lib1"
+    "@js-modular-seed/lib1": "^0.0.2",
+    "lodash": "^4.13.1"
   },
   "peerDependencies": {
     "@js-modular-seed/lib1": "^0.0.2",

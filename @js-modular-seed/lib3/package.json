@@ -12,8 +12,8 @@
     "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
     "build:full": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --env.debug",
     "clean": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf bundles build-stats.json",
-    "linklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js",
-    "unlinklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js unlink && npm install --production",
+    "linklocal": "echo \"Nothing to link\"",
+    "unlinklocal": "echo \"Nothing to unlink\"",
     "stats": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
     "webpack": "node ../../scripts/node_modules/webpack/bin/webpack.js",
     "test": "echo \"Error: no test specified\" && exit 1"
