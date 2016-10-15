@@ -12,7 +12,7 @@ function createAppParts(rootDir, env = {}) {
     let PATHS = {
         build: path.join(rootDir, 'build'),
         source: path.join(rootDir, 'src'),
-        project: path.resolve(rootDir, '../')
+        project: path.resolve(rootDir, '../../')
     };
 
     return Object.assign({}, commonParts, {

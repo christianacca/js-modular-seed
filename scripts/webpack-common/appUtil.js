@@ -5,7 +5,7 @@ module.exports = createAppUtil;
 function createAppUtil(sourceDir) {
 
     const PATHS = {
-        project: path.resolve(sourceDir, '../')
+        project: path.resolve(sourceDir, '../../')
     };
 
     const projectPkg = require(path.resolve(PATHS.project, 'package'));

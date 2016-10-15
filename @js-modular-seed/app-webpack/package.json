@@ -1,0 +1,44 @@
+{
+  "name": "@js-modular-seed/app-webpack",
+  "version": "0.0.1",
+  "description": "Example application and consumer of this project libraries. Uses webpack to bundle JS from both the application and library folders",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianacca/js-modular-seed.git"
+  },
+  "scripts": {
+    "start:debug": "node ../../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --env.debug",
+    "start": "node ../../scripts/node_modules/webpack-dev-server/bin/webpack-dev-server.js --open",
+    "stats": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod --profile --json > build-stats.json",
+    "prebuild": "npm run clean:build",
+    "build": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.debug",
+    "prebuild:prod": "npm run clean:build",
+    "build:prod": "node ../../scripts/node_modules/webpack/bin/webpack.js --env.prod",
+    "clean": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf build build-stats.json",
+    "clean:build": "node ../../scripts/node_modules/shx/lib/cli.js rm -rf build",
+    "preinstall-dep": "npm run unlinklocal",
+    "install-dep": "npm install",
+    "postinstall-dep": "npm run linklocal",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "node ../../scripts/node_modules/webpack/bin/webpack.js",
+    "_linklocal": "node ../../scripts/node_modules/linklocal/bin/linklocal.js",
+    "linklocal": "npm run _linklocal -- --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../../ && npm prune",
+    "unlinklocal": "npm run _linklocal -- unlink --named @js-modular-seed/lib1 @js-modular-seed/lib2 @js-modular-seed/lib3 ../../ && npm i",
+    "preuninstall-dep": "npm run unlinklocal",
+    "uninstall-dep": "npm uninstall",
+    "postuninstall-dep": "npm run linklocal"
+  },
+  "private": true,
+  "keywords": [],
+  "author": "christianacca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianacca/js-modular-seed/issues"
+  },  
+  "dependencies": {
+    "@js-modular-seed/lib1": "0.0.2",
+    "@js-modular-seed/lib2": "0.0.2",
+    "@js-modular-seed/lib3": "0.0.1",
+    "lodash": "^4.13.1"
+  }
+}

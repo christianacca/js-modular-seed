@@ -3,16 +3,16 @@
   "version": "0.0.1",
   "description": "javascript seed project that supports a modular code base",
   "scripts": {
-    "cmd": "shx ls -d ../app-*/ ../@js-modular-seed/*/ | bulk -c",
+    "cmd": "shx ls -d ../@js-modular-seed/*/ | bulk -c",
     "preclean:full": "npm run clean",
-    "clean:full": "shx ls -d ../app-*/ ../@js-modular-seed/*/ | bulk -c \"shx rm -rf node_modules\"",
-    "clean": "shx ls -d ../app-*/ ../@js-modular-seed/*/ | bulk -c \"npm run clean\"",
-    "all:install": "shx ls -d ../app-*/ ../@js-modular-seed/*/ | bulk -c \"npm install\"",
-    "all:linklocal": "shx ls -d ../app-*/ ../@js-modular-seed/*/ | bulk -c \"npm run linklocal\"",
-    "all:unlinklocal": "shx ls -d ../app-*/ ../@js-modular-seed/*/ | bulk -c \"npm run unlinklocal\"",
+    "clean:full": "shx ls -d ../@js-modular-seed/*/ | bulk -c \"shx rm -rf node_modules\"",
+    "clean": "shx ls -d ../@js-modular-seed/*/ | bulk -c \"npm run clean\"",
+    "all:install": "shx ls -d ../@js-modular-seed/*/ | bulk -c \"npm install\"",
+    "all:linklocal": "shx ls -d ../@js-modular-seed/*/ | bulk -c \"npm run linklocal\"",
+    "all:unlinklocal": "shx ls -d ../@js-modular-seed/*/ | bulk -c \"npm run unlinklocal\"",
     "postinstall": "npm run all:install && npm run all:linklocal",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "validate": "shx ls -d ../app-webpack/ ../@js-modular-seed/*/ | bulk -c \"webpack-validator webpack.config.js\""
+    "validate": "shx ls -d ../@js-modular-seed/app-webpack/ ../@js-modular-seed/lib*/ | bulk -c \"webpack-validator webpack.config.js\""
   },
   "repository": {
     "type": "git",
