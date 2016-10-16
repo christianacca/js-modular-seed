@@ -28,7 +28,6 @@
     "uninstall-dep": "npm uninstall",
     "postuninstall-dep": "npm run linklocal"
   },
-  "private": true,
   "keywords": [],
   "author": "christianacca",
   "license": "MIT",
